@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Darshan</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="View today's Daily Darshan photos from Shree Kantheriya Hanumanji Dham, Surat.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* ===================== PAGE HERO ===================== */
+        .page-hero { background:linear-gradient(135deg,#8B1914,#e65100); padding:3rem 2.5rem 2rem; color:white; }
+        .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
+        .page-hero p { color:rgba(255,255,255,0.85); margin:0.5rem 0 0; }
+
+        /* ===================== INFO CARDS ===================== */
+        .darshan-info-strip { display:flex; gap:1.5rem; margin-bottom:2rem; flex-wrap:wrap; }
+        .info-card { flex:1; min-width:180px; background:white; border-radius:12px; padding:1.25rem 1.5rem; display:flex; align-items:center; gap:1rem; box-shadow:0 4px 16px rgba(0,0,0,0.06); border-left:4px solid #f57c00; }
+        .info-card .icon { font-size:2rem; }
+        .info-card .text { display:flex; flex-direction:column; }
+        .info-card .label { font-size:0.8rem; color:#888; text-transform:uppercase; letter-spacing:1px; }
+        .info-card .value { font-size:1rem; font-weight:700; color:#333; }
+
+        /* ===================== MASONRY PHOTO GRID ===================== */
+        .masonry-grid { columns: 4 200px; column-gap: 0.85rem; margin-bottom: 2rem; }
+        .masonry-item { break-inside: avoid; margin-bottom: 0.85rem; position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; background: #f5ede5; box-shadow: 0 3px 12px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; display: block; }
+        .masonry-item:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1; }
+        .masonry-item img { width: 100%; height: auto; display: block; transition: opacity 0.4s; }
+        .masonry-item img.loading { opacity: 0; }
+        .masonry-item img.loaded  { opacity: 1; }
+
+        .masonry-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(139,25,20,0.65) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 0.75rem; }
+        .masonry-item:hover .masonry-overlay { opacity: 1; }
+        .masonry-overlay .photo-name { color: white; font-size: 0.78rem; font-weight: 500; line-height: 1.3; }
+        .masonry-overlay .zoom-icon { margin-left: auto; font-size: 1.3rem; }
+
+        /* ===================== LIGHTBOX ===================== */
+        .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:99999; align-items:center; justify-content:center; flex-direction:column; }
+        .lightbox.active { display:flex; }
+        .lb-loader { position:absolute; color:white; font-size:0.9rem; display:flex; flex-direction:column; align-items:center; gap:1rem; }
+        .lb-loader .spinner { width:40px;height:40px;border:4px solid rgba(255,255,255,0.2);border-top:4px solid white;border-radius:50%;animation:spin 0.8s linear infinite; }
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        .lb-img-area { position: relative; max-width: 92vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; min-width: 200px; min-height: 200px; }
+        .lb-img-area img { max-width: 92vw; max-height: 80vh; object-fit: contain; border-radius: 6px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.4s; }
+        .lb-img-area img.lb-ready { opacity: 1; }
+        .lb-img-area img.lb-ready ~ .lb-loader { opacity: 0; pointer-events:none; }
+
+        .lb-bottom { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+        .lb-name { color: rgba(255,255,255,0.8); font-size: 0.85rem; max-width: 80vw; text-align: center; }
+        .lb-actions { display: flex; gap: 0.75rem; align-items: center; }
+        .lb-btn { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.25); padding: 0.55rem 1.25rem; border-radius: 25px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-family: inherit; }
+        .lb-btn:hover { background: rgba(255,255,255,0.28); }
+        .lb-dl { background: linear-gradient(135deg,#f57c00,#8B1914); border: none; font-weight: 700; text-decoration: none; }
+        .lb-close { position:absolute; top:1rem; right:1.25rem; background:rgba(255,255,255,0.1); color:white; border:none; width:42px; height:42px; border-radius:50%; font-size:1.1rem; cursor:pointer; }
+        .lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .lb-arrow:hover { background: rgba(255,255,255,0.3); }
+        .lb-prev { left: 1rem; }
+        .lb-next { right: 1rem; }
+
+        /* ===================== SECTION UI ===================== */
+        .section-label { display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;color:#8B1914;font-size:1.3rem;font-weight:700; }
+        .section-label::before { content:'';display:inline-block;width:5px;height:1.3rem;background:linear-gradient(to bottom,#f57c00,#8B1914);border-radius:4px; }
+        .spinner { width:50px;height:50px;border:4px solid #f0e8dd;border-top:4px solid #8B1914;border-radius:50%;animation:spin 0.8s linear infinite;margin:4rem auto; }
+
+        @media(max-width:600px){
+            .masonry-grid { columns: 2 140px; column-gap:0.5rem; }
+            .lb-arrow { width:38px;height:38px; }
+            .lb-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="page-hero animate-fade-in">
+    <h1>🛕 Daily Darshan</h1>
+    <p>Today's divine glimpses of Shree Kantheriya Hanumanji Maharaj</p>
+</div>
+
+<!-- ===================== LIGHTBOX ===================== -->
+<div class="lightbox" id="lightbox">
+    <button class="lb-close" onclick="closeLb()">✕</button>
+    <button class="lb-arrow lb-prev" onclick="prevPhoto()">‹</button>
+    <button class="lb-arrow lb-next" onclick="nextPhoto()">›</button>
+    <div class="lb-img-area" id="lbImgArea">
+        <img id="lbImg" src="" alt="" />
+        <div class="lb-loader"><div class="spinner" style="margin:0;"></div><span style="color:rgba(255,255,255,0.7);margin-top:0.5rem;">Loading full quality...</span></div>
+    </div>
+    <div class="lb-bottom">
+        <div class="lb-name" id="lbName"></div>
+        <div class="lb-actions">
+            <button class="lb-btn" onclick="prevPhoto()">← Prev</button>
+            <span class="lb-counter" id="lbCounter" style="color:rgba(255,255,255,0.5);font-size:0.8rem;"></span>
+            <button class="lb-btn" onclick="nextPhoto()">Next →</button>
+            <a id="lbDl" class="lb-btn lb-dl" href="#" target="_blank">⬇ Download Original</a>
+        </div>
+    </div>
+</div>
+
+<div class="app-container">
+    <main class="content-area animate-slide-up delay-100">
+
+        <!-- Info Strip -->
+        <div class="darshan-info-strip">
+            <div class="info-card">
+                <span class="icon">📅</span>
+                <div class="text">
+                    <span class="label">Today's Date</span>
+                    <span class="value" id="todayDate">Loading...</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <span class="icon">⏰</span>
+                <div class="text">      
+                    <span class="label">Status</span>
+                    <span class="value">Updated Daily</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Area -->
+        <div class="section-label">📸 Today's Darshan Photos</div>
+        <div id="galleryArea">
+            <div class="spinner"></div>
+        </div>
+
+    </main>
+</div>
+
+<div id="social-connect-root"></div>
+<div id="site-footer"></div>
+<script src="env/config.js?v=1.1"></script>
+<script src="scripts/includes.js"></script>
+<script>
+    /* ===================== CONFIG ===================== */
+    const config = window.KCONFIG || {
+        API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+        FOLDERS: { DAILY_DARSHAN: '1pAwPyxrLdKaBONV4nUwIMZaVwid_fQG4' }
+    };
+    const API_KEY   = config.API_KEY;
+    const FOLDER_ID = config.FOLDERS.DAILY_DARSHAN;
+    /* ================================================= */
+
+    const area      = document.getElementById('galleryArea');
+    const lb        = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lbImg');
+    let currentImgs = [];
+    let currentIdx  = 0;
+
+    const thumbGrid = id => `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+    const thumbHQ   = id => `https://drive.google.com/thumbnail?id=${id}&sz=w2000`;
+    const dlUrl     = id => `https://drive.google.com/uc?id=${id}&export=download`;
+    const esc       = s  => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    /* ===================== FETCH ===================== */
+    async function loadGallery() {
+        try {
+            const url = `https://www.googleapis.com/drive/v3/files`
+                + `?q='${FOLDER_ID}'+in+parents+and+trashed=false+and+mimeType+contains+'image/'`
+                + `&orderBy=name`
+                + `&key=${API_KEY}`
+                + `&fields=files(id,name)`;
+            
+            const r = await fetch(url);
+            if (!r.ok) throw new Error('API Error');
+            const data = await r.json();
+            currentImgs = data.files || [];
+            renderGallery();
+        } catch(e) {
+            area.innerHTML = `<p style="text-align:center;padding:2rem;color:#8B1914;">⚠️ Error loading photos. Please ensure the Drive folder is public.</p>`;
+        }
+    }
+
+    /* ===================== RENDER ===================== */
+    function renderGallery() {
+        if (!currentImgs.length) {
+            area.innerHTML = `<p style="text-align:center;padding:4rem;color:#888;">No photos uploaded today yet. Check back soon!</p>`;
+            return;
+        }
+
+        let html = `<div class="masonry-grid">`;
+        currentImgs.forEach((img, i) => {
+            html += `
+                <div class="masonry-item" onclick="openLb(${i})">
+                    <img src="${thumbGrid(img.id)}" alt="${esc(img.name)}" 
+                         loading="lazy" class="loading" 
+                         onload="this.classList.remove('loading');this.classList.add('loaded');">
+                    <div class="masonry-overlay">
+                        <span class="photo-name">${esc(img.name)}</span>
+                        <span class="zoom-icon">🔍</span>
+                    </div>
+                </div>`;
+        });
+        html += `</div>`;
+        area.innerHTML = html;
+    }
+
+    /* ===================== LIGHTBOX ===================== */
+    function openLb(i) {
+        currentIdx = i;
+        const img = currentImgs[i];
+        lbImg.classList.remove('lb-ready');
+        lbImg.src = '';
+        
+        document.getElementById('lbName').textContent = img.name;
+        document.getElementById('lbCounter').textContent = `${i + 1} / ${currentImgs.length}`;
+        document.getElementById('lbDl').href = dlUrl(img.id);
+
+        const hq = new Image();
+        hq.onload = () => { lbImg.src = hq.src; lbImg.classList.add('lb-ready'); };
+        hq.src = thumbHQ(img.id);
+
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLb() { lb.classList.remove('active'); document.body.style.overflow = ''; }
+    function nextPhoto() { currentIdx = (currentIdx + 1) % currentImgs.length; openLb(currentIdx); }
+    function prevPhoto() { currentIdx = (currentIdx - 1 + currentImgs.length) % currentImgs.length; openLb(currentIdx); }
+
+    /* Keyboard & Overlay */
+    document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('active')) return;
+        if (e.key === 'ArrowRight') nextPhoto();
+        if (e.key === 'ArrowLeft')  prevPhoto();
+        if (e.key === 'Escape')     closeLb();
+    });
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+
+    /* ===================== INIT ===================== */
+    const dateOpts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+    document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-IN', dateOpts);
+    loadGallery();
+</script>
+</body>
+</html>

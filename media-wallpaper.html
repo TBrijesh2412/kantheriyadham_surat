@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpapers</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Download beautiful divine wallpapers from Shree Kantheriya Hanumanji Dham – full resolution for mobile and desktop.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        .page-hero { background: linear-gradient(135deg,#004d40,#00695c); padding:3rem 2.5rem 2rem; color:white; }
+        .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
+        .page-hero p { color:rgba(255,255,255,0.8); margin:0.5rem 0 0; }
+
+        /* Tip strip */
+        .tip-strip { background:#e0f2f1; border-left:4px solid #00796b; border-radius:0 12px 12px 0; padding:1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; margin-bottom:2rem; }
+        .tip-strip p { margin:0; color:#004d40; font-size:0.9rem; line-height:1.6; }
+
+        /* Loading */
+        .gallery-loading { text-align:center; padding:4rem; color:#888; }
+        .spinner { width:50px;height:50px;border:4px solid #e0f2f1;border-top:4px solid #00796b;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem; }
+        @keyframes spin { to{transform:rotate(360deg);} }
+
+        /* Folder Cards */
+        .folder-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1.25rem;margin-bottom:2rem; }
+        .folder-card { background:white;border-radius:16px;padding:1.5rem 1rem;text-align:center;cursor:pointer;border:2px solid #e0f2f1;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+        .folder-card:hover { transform:translateY(-5px);border-color:#00796b;box-shadow:0 10px 25px rgba(0,77,64,0.2); }
+        .folder-card .folder-icon { font-size:3.5rem;margin-bottom:0.6rem; }
+        .folder-card h4 { color:#004d40;font-size:0.9rem;margin:0;word-break:break-word; }
+
+        /* ===== MASONRY LAYOUT — photos at natural size ===== */
+        .masonry-grid {
+            columns: 4 200px;
+            column-gap: 0.85rem;
+            margin-bottom: 2rem;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0.85rem;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #cfe9e6;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .masonry-item:hover { transform:scale(1.02); box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+        .masonry-item img {
+            width: 100%;
+            height: auto;          /* natural aspect ratio */
+            display: block;
+            transition: opacity 0.4s;
+        }
+        .masonry-item img.loading { opacity:0; }
+        .masonry-item img.loaded  { opacity:1; }
+
+        /* Hover overlay */
+        .masonry-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to top, rgba(0,77,64,0.7) 0%, transparent 55%);
+            opacity:0; transition:opacity 0.3s;
+            display:flex; align-items:flex-end; justify-content:space-between; padding:0.75rem;
+        }
+        .masonry-item:hover .masonry-overlay { opacity:1; }
+        .masonry-overlay .wp-name { color:white; font-size:0.78rem; font-weight:500; max-width:70%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .dl-badge { background:#00796b; color:white; border:none; border-radius:20px; padding:0.3rem 0.8rem; font-size:0.75rem; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; }
+        .dl-badge:hover { background:#004d40; }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:99999; align-items:center; justify-content:center; flex-direction:column; }
+        .lightbox.active { display:flex; }
+
+        .lb-img-area { position:relative; max-width:92vw; max-height:80vh; display:flex; align-items:center; justify-content:center; min-width:200px; min-height:200px; }
+        .lb-loader { position:absolute; color:white; display:flex; flex-direction:column; align-items:center; gap:1rem; }
+        .lb-loader .spinner { border-color:rgba(255,255,255,0.2); border-top-color:white; }
+        .lb-img-area img { max-width:92vw; max-height:80vh; object-fit:contain; border-radius:6px; box-shadow:0 20px 60px rgba(0,0,0,0.6); opacity:0; transition:opacity 0.4s; }
+        .lb-img-area img.lb-ready { opacity:1; }
+        .lb-img-area img.lb-ready ~ .lb-loader { opacity:0; pointer-events:none; }
+
+        .lb-bottom { display:flex; flex-direction:column; align-items:center; gap:0.6rem; margin-top:1rem; }
+        .lb-name { color:rgba(255,255,255,0.8); font-size:0.85rem; max-width:80vw; text-align:center; }
+        .lb-actions { display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; justify-content:center; }
+        .lb-btn { background:rgba(255,255,255,0.12); color:white; border:1px solid rgba(255,255,255,0.25); padding:0.55rem 1.25rem; border-radius:25px; cursor:pointer; font-size:0.9rem; transition:all 0.2s; font-family:inherit; }
+        .lb-btn:hover { background:rgba(255,255,255,0.28); }
+        .lb-dl-btn { background:linear-gradient(135deg,#00796b,#004d40); border:none; font-weight:700; color:white; text-decoration:none; padding:0.55rem 1.5rem; border-radius:25px; font-size:0.9rem; display:inline-flex; align-items:center; gap:0.5rem; }
+        .lb-dl-btn:hover { opacity:0.9; }
+        .lb-close { position:absolute; top:1rem; right:1.25rem; background:rgba(255,255,255,0.1); color:white; border:none; width:42px; height:42px; border-radius:50%; font-size:1.1rem; cursor:pointer; font-family:inherit; }
+        .lb-close:hover { background:rgba(255,255,255,0.25); }
+        .lb-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:1.5rem; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+        .lb-arrow:hover { background:rgba(255,255,255,0.3); }
+        .lb-prev { left:1rem; } .lb-next { right:1rem; }
+        .lb-counter { color:rgba(255,255,255,0.5); font-size:0.82rem; }
+
+        .section-label { display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;color:#004d40;font-size:1.3rem;font-weight:700; }
+        .section-label::before { content:'';display:inline-block;width:5px;height:1.3rem;background:linear-gradient(to bottom,#4db6ac,#004d40);border-radius:4px; }
+        .back-btn { display:inline-flex;align-items:center;gap:0.5rem;background:white;color:#004d40;border:2px solid #e0f2f1;padding:0.6rem 1.25rem;border-radius:25px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.2s;margin-bottom:1.5rem;font-family:inherit; }
+        .back-btn:hover { border-color:#00796b;background:#f0faf9; }
+        .error-box { background:#fff3e0;border:1px solid #ffe082;border-radius:12px;padding:2rem;text-align:center;color:#5d4037; }
+
+        @media(max-width:600px){
+            .masonry-grid { columns: 2 140px; column-gap:0.5rem; }
+            .masonry-item { margin-bottom:0.5rem; }
+            .lb-arrow { width:38px;height:38px;font-size:1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="page-hero animate-fade-in">
+    <h1>🖼️ Divine Wallpapers</h1>
+    <p>Click to view full resolution — download free for mobile &amp; desktop</p>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lb-close" onclick="closeLb()">✕</button>
+    <button class="lb-arrow lb-prev" onclick="prevWp()">‹</button>
+    <button class="lb-arrow lb-next" onclick="nextWp()">›</button>
+    <div class="lb-img-area" id="lbImgArea">
+        <img id="lbImg" src="" alt="" />
+        <div class="lb-loader"><div class="spinner"></div><span style="color:rgba(255,255,255,0.7);font-size:0.85rem;">Loading full size...</span></div>
+    </div>
+    <div class="lb-bottom">
+        <div class="lb-name" id="lbName"></div>
+        <div class="lb-actions">
+            <button class="lb-btn" onclick="prevWp()">← Prev</button>
+            <span class="lb-counter" id="lbCounter"></span>
+            <button class="lb-btn" onclick="nextWp()">Next →</button>
+            <a id="lbDl" class="lb-dl-btn" href="#" target="_blank" download>⬇ Download Full Size</a>
+        </div>
+    </div>
+</div>
+
+<div class="app-container">
+    <main class="content-area animate-slide-up delay-100">
+
+        <div class="tip-strip">
+            <span style="font-size:1.5rem;flex-shrink:0;">📱</span>
+            <p><strong>Tip:</strong> Click any wallpaper to view in full resolution. Use the <strong>⬇ Download Full Size</strong> button inside the viewer to save the original quality image to your device — completely free!</p>
+        </div>
+
+        <button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← Back to Collections</button>
+        <div id="galleryArea">
+            <div class="gallery-loading"><div class="spinner"></div><p>Loading wallpapers...</p></div>
+        </div>
+    </main>
+</div>
+
+<div id="site-footer"></div>
+<script src="scripts/includes.js"></script>
+
+
+<script>
+    const API_KEY = 'AIzaSyDAqXjcMKURtp8ZGuvJJgxDyb9tT9Xp46I';
+    const ROOT_ID = '1gq2fqXo4rqM3D-pGxDxSiny3uDGv3ALG'; // same master folder
+
+    let currentFolderId = ROOT_ID;
+    let folderStack     = [];
+    let currentImages   = [];
+    let currentIndex    = 0;
+
+    const area    = document.getElementById('galleryArea');
+    const backBtn = document.getElementById('backBtn');
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+
+    const thumbGrid = id => `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+    const thumbHQ   = id => `https://drive.google.com/thumbnail?id=${id}&sz=w2000`;
+    const dlUrl     = id => `https://drive.google.com/uc?id=${id}&export=download`;
+    const esc       = s  => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    async function fetchFolder(id) {
+        area.innerHTML = `<div class="gallery-loading"><div class="spinner"></div><p>Loading...</p></div>`;
+        try {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${id}'+in+parents+and+trashed=false&orderBy=name&key=${API_KEY}&fields=files(id,name,mimeType)&pageSize=300`;
+            const r = await fetch(url);
+            if (!r.ok) throw new Error('API ' + r.status);
+            return (await r.json()).files || [];
+        } catch(e) {
+            area.innerHTML = `<div class="error-box"><h3>⚠️ Could not load wallpapers</h3><p>Make sure the folder is shared as "Anyone with the link → Viewer".</p><p style="font-size:0.85rem;margin-top:0.5rem;color:#999;">${e.message}</p></div>`;
+            return [];
+        }
+    }
+
+    async function renderFolder(id, addStack = true) {
+        if (addStack && currentFolderId !== id) folderStack.push(currentFolderId);
+        currentFolderId = id;
+        backBtn.style.display = folderStack.length ? 'inline-flex' : 'none';
+
+        const files = await fetchFolder(id);
+        if (!files.length) { area.innerHTML = `<p style="color:#aaa;text-align:center;padding:4rem;">No wallpapers.</p>`; return; }
+
+        const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+        const images  = files.filter(f => f.mimeType.startsWith('image/'));
+        currentImages = images;
+        let html = '';
+
+        if (folders.length) {
+            html += `<div class="section-label">📁 Collections</div>`;
+            html += `<div class="folder-grid">`;
+            folders.forEach(f => {
+                html += `<div class="folder-card" onclick="renderFolder('${f.id}')">
+                    <div class="folder-icon">🖼️</div>
+                    <h4>${esc(f.name)}</h4>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+
+        if (images.length) {
+            if (folders.length) html += `<hr style="margin:1.5rem 0;border:1px solid #e0f2f1;">`;
+            html += `<div class="section-label">Wallpapers <span style="color:#aaa;font-size:0.8rem;font-weight:400;">(${images.length})</span></div>`;
+            html += `<div class="masonry-grid">`;
+            images.forEach((img, i) => {
+                html += `<div class="masonry-item" title="${esc(img.name)}">
+                    <img
+                        src="${thumbGrid(img.id)}"
+                        alt="${esc(img.name)}"
+                        loading="lazy"
+                        class="loading"
+                        onload="this.classList.remove('loading');this.classList.add('loaded');"
+                        onerror="this.closest('.masonry-item').style.display='none';"
+                        onclick="openLb(${i})"
+                    />
+                    <div class="masonry-overlay">
+                        <span class="wp-name">${esc(img.name)}</span>
+                        <button class="dl-badge" onclick="event.stopPropagation(); window.open('${dlUrl(img.id)}','_blank')">⬇ Save</button>
+                    </div>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+
+        area.innerHTML = html;
+    }
+
+    function goBack() {
+        if (!folderStack.length) return;
+        renderFolder(folderStack.pop(), false);
+    }
+
+    function openLb(i) { currentIndex = i; showLb(); }
+
+    function showLb() {
+        const img = currentImages[currentIndex];
+        lbImg.classList.remove('lb-ready');
+        lbImg.src = '';
+        document.getElementById('lbName').textContent    = img.name;
+        document.getElementById('lbCounter').textContent = `${currentIndex + 1} / ${currentImages.length}`;
+        document.getElementById('lbDl').href             = dlUrl(img.id);
+        const hq = new Image();
+        hq.onload = () => { lbImg.src = hq.src; lbImg.classList.add('lb-ready'); };
+        hq.src = thumbHQ(img.id);
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLb() { lb.classList.remove('active'); lbImg.src = ''; document.body.style.overflow = ''; }
+    function nextWp()  { currentIndex = (currentIndex + 1) % currentImages.length; showLb(); }
+    function prevWp()  { currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; showLb(); }
+
+    document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('active')) return;
+        if (e.key === 'ArrowRight') nextWp();
+        if (e.key === 'ArrowLeft')  prevWp();
+        if (e.key === 'Escape')     closeLb();
+    });
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+
+    renderFolder(ROOT_ID, false);
+</script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Kathas</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Listen to spiritual Kathas and Bhajans from Shree Kantheriya Hanumanji Dham – play online or download free.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        .page-hero { background:linear-gradient(135deg,#1a237e,#283593); padding:3rem 2.5rem 2rem; color:white; }
+        .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
+        .page-hero p  { color:rgba(255,255,255,0.75); margin:0.5rem 0 0; }
+
+        /* Loading */
+        .gallery-loading { text-align:center; padding:4rem; color:#888; }
+        .spinner { width:46px;height:46px;border:4px solid #e8eaf6;border-top:4px solid #3949ab;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem; }
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        /* Folder Cards */
+        .folder-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1.25rem;margin-bottom:2rem; }
+        .folder-card { background:white;border-radius:16px;padding:1.5rem 1rem;text-align:center;cursor:pointer;border:2px solid #e8eaf6;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+        .folder-card:hover { transform:translateY(-5px);border-color:#3949ab;box-shadow:0 10px 25px rgba(26,35,126,0.15); }
+        .folder-card .folder-icon { font-size:3.2rem;margin-bottom:0.6rem; }
+        .folder-card h4 { color:#1a237e;font-size:0.9rem;margin:0;word-break:break-word; }
+
+        /* === NOW PLAYING PLAYER === */
+        .now-playing-panel {
+            background: linear-gradient(135deg,#1a237e,#283593);
+            border-radius: 20px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(26,35,126,0.3);
+            display: none;
+        }
+        .now-playing-panel.active { display: block; }
+        .np-label { color:rgba(255,255,255,0.6); font-size:0.72rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.4rem; }
+        .np-title { color:white; font-size:1.15rem; font-weight:700; margin-bottom:1rem; line-height:1.4; }
+        .np-iframe-wrap { border-radius:12px; overflow:hidden; background:white; }
+        .np-iframe-wrap iframe { width:100%; height:80px; border:none; display:block; }
+        .np-actions { display:flex; align-items:center; gap:0.75rem; margin-top:1rem; flex-wrap:wrap; }
+        .np-dl { background:rgba(255,255,255,0.15); color:white; padding:0.5rem 1.25rem; border-radius:25px; text-decoration:none; font-size:0.85rem; font-weight:600; border:1px solid rgba(255,255,255,0.3); transition:background 0.2s; }
+        .np-dl:hover { background:rgba(255,255,255,0.3); color:white; }
+        .np-close-btn { background:rgba(255,255,255,0.1); color:white; border:none; padding:0.5rem 1rem; border-radius:25px; cursor:pointer; font-size:0.85rem; font-family:inherit; }
+        .np-close-btn:hover { background:rgba(255,255,255,0.25); }
+
+        /* === TRACK LIST === */
+        .track-list { display:flex; flex-direction:column; gap:0.65rem; }
+        .track-item {
+            background: white;
+            border-radius: 14px;
+            padding: 0.9rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 2px solid #f0f0f8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.25s;
+            cursor: pointer;
+        }
+        .track-item:hover { border-color:#3949ab; box-shadow:0 6px 20px rgba(26,35,126,0.12); background:#f8f9ff; }
+        .track-item.active { border-color:#3949ab; background:#e8eaf6; }
+
+        .track-num {
+            width:38px; height:38px; flex-shrink:0;
+            background:linear-gradient(135deg,#3949ab,#1a237e);
+            color:white; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:0.85rem; font-weight:700;
+        }
+        .track-item.active .track-num { background:linear-gradient(135deg,#f57c00,#8B1914); }
+
+        .track-info { flex:1; min-width:0; }
+        .track-info h4 { margin:0; font-size:0.95rem; color:#1a237e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .track-info h4.active-title { color:#8B1914; }
+        .track-info span { font-size:0.78rem; color:#9fa8da; }
+
+        .track-play-btn {
+            width:38px; height:38px; flex-shrink:0;
+            background:linear-gradient(135deg,#3949ab,#1a237e);
+            color:white; border:none; border-radius:50%;
+            font-size:0.95rem; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            transition:transform 0.2s; font-family:inherit;
+        }
+        .track-play-btn:hover { transform:scale(1.1); }
+        .track-item.active .track-play-btn { background:linear-gradient(135deg,#f57c00,#8B1914); }
+
+        .track-dl {
+            display:inline-flex; align-items:center; gap:0.3rem;
+            background:#e8eaf6; color:#1a237e;
+            padding:0.4rem 0.85rem; border-radius:20px;
+            font-size:0.78rem; font-weight:700; text-decoration:none;
+            transition:all 0.2s; flex-shrink:0; white-space:nowrap;
+        }
+        .track-dl:hover { background:#1a237e; color:white; }
+
+        /* Section label */
+        .section-label { display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;color:#1a237e;font-size:1.2rem;font-weight:700; }
+        .section-label::before { content:'';display:inline-block;width:5px;height:1.2rem;background:linear-gradient(to bottom,#7986cb,#1a237e);border-radius:4px; }
+        .back-btn { display:inline-flex;align-items:center;gap:0.5rem;background:white;color:#1a237e;border:2px solid #e8eaf6;padding:0.6rem 1.25rem;border-radius:25px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.2s;margin-bottom:1.5rem;font-family:inherit; }
+        .back-btn:hover { border-color:#1a237e;background:#f0f0ff; }
+        .error-box { background:#fff3e0;border:1px solid #ffe082;border-radius:12px;padding:2rem;text-align:center;color:#5d4037; }
+        .error-box h3 { color:#e65100; }
+
+        @media(max-width:500px){ .track-dl { display:none; } }
+    </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="page-hero animate-fade-in">
+    <h1>🎵 Audio Kathas</h1>
+    <p>Click any track to play — listen online or download free</p>
+</div>
+
+<div class="app-container">
+    <main class="content-area animate-slide-up delay-100">
+
+        <!-- Now Playing Panel -->
+        <div class="now-playing-panel" id="nowPlayingPanel">
+            <div class="np-label">🎵 Now Playing</div>
+            <div class="np-title" id="npTitle">—</div>
+            <div class="np-iframe-wrap">
+                <!-- Google Drive's own audio player — works without CORS issues -->
+                <iframe id="audioFrame"
+                    src=""
+                    allow="autoplay"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="np-actions">
+                <a href="#" id="npDl" class="np-dl" target="_blank" download>⬇ Download this track</a>
+                <button class="np-close-btn" onclick="stopPlayer()">✕ Close Player</button>
+            </div>
+        </div>
+
+        <button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← Back to Folders</button>
+        <div id="galleryArea">
+            <div class="gallery-loading"><div class="spinner"></div><p>Loading audio library...</p></div>
+        </div>
+
+    </main>
+</div>
+
+<div id="site-footer"></div>
+<script src="scripts/includes.js"></script>
+
+
+<script src="env/config.js?v=1.1"></script>
+<script src="scripts/includes.js"></script>
+<script>
+    /* ===================== CONFIG ===================== */
+    const config = window.KCONFIG || {
+        API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+        FOLDERS: { AUDIO_KATHAS: '1BseaZx2Lc9_2z5U196jqcoY-nWKrXGZP' },
+        PAGE_SIZE: 15
+    };
+    const API_KEY = config.API_KEY;
+    const ROOT_ID = config.FOLDERS.AUDIO_KATHAS;
+    const PAGE_SIZE = config.PAGE_SIZE || 15;
+    /* ================================================= */
+
+    let currentFolderId = ROOT_ID;
+    let folderStack     = [];
+    let activeTrackId   = null;
+    let currentAudios   = [];
+    let displayedCount  = 0;
+
+    const area    = document.getElementById('galleryArea');
+    const backBtn = document.getElementById('backBtn');
+    const panel   = document.getElementById('nowPlayingPanel');
+    const npTitle = document.getElementById('npTitle');
+    const npDl    = document.getElementById('npDl');
+    const frame   = document.getElementById('audioFrame');
+
+    // Google Drive preview URL — uses Drive's own player, no CORS issue
+    const previewUrl = id => `https://drive.google.com/file/d/${id}/preview`;
+    const dlUrl      = id => `https://drive.google.com/uc?id=${id}&export=download`;
+    const esc        = s  => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const cleanName  = n  => n.replace(/\.(mp3|ogg|wav|m4a|aac|flac|opus)$/i, '');
+
+    async function fetchFolder(id) {
+        area.innerHTML = `<div class="gallery-loading"><div class="spinner"></div><p>Loading...</p></div>`;
+        try {
+            const url = `https://www.googleapis.com/drive/v3/files?q='${id}'+in+parents+and+trashed=false&orderBy=name&key=${API_KEY}&fields=files(id,name,mimeType)&pageSize=300`;
+            const r = await fetch(url);
+            if (!r.ok) throw new Error('API ' + r.status);
+            return (await r.json()).files || [];
+        } catch(e) {
+            area.innerHTML = `<div class="error-box"><h3>⚠️ Could not load audio library</h3><p>Make sure the folder is set to <strong>"Anyone with the link → Viewer"</strong> in Google Drive.</p><p style="font-size:0.85rem;margin-top:0.5rem;color:#999;">${e.message}</p></div>`;
+            return [];
+        }
+    }
+
+    async function renderFolder(id, addStack = true) {
+        if (addStack && currentFolderId !== id) folderStack.push(currentFolderId);
+        currentFolderId = id;
+        backBtn.style.display = folderStack.length ? 'inline-flex' : 'none';
+
+        const files = await fetchFolder(id);
+        if (!files.length) { area.innerHTML = `<p style="color:#aaa;text-align:center;padding:4rem;">No audio found here.</p>`; return; }
+
+        const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+        const audios  = files.filter(f => f.mimeType.startsWith('audio/'));
+        const others  = files.filter(f => !f.mimeType.startsWith('audio/') && f.mimeType !== 'application/vnd.google-apps.folder');
+
+        currentAudios = audios;
+        displayedCount = 0;
+        let html = '';
+
+        /* ── Folders ── */
+        if (folders.length) {
+            html += `<div class="section-label">📁 Collections</div>`;
+            html += `<div class="folder-grid">`;
+            folders.forEach(f => {
+                html += `<div class="folder-card" onclick="renderFolder('${f.id}')">
+                    <div class="folder-icon">🎶</div>
+                    <h4>${esc(f.name)}</h4>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+
+        /* ── Audio Tracks ── */
+        if (audios.length) {
+            if (folders.length) html += `<hr style="margin:1.5rem 0;border:1px solid #e8eaf6;">`;
+            html += `<div class="section-label">🎵 Kathas <span id="audioCount" style="color:#9fa8da;font-size:0.8rem;font-weight:400;">(${audios.length} tracks)</span></div>`;
+            html += `<div class="track-list" id="trackList"></div>`;
+            html += `<div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                        <button class="load-more-btn" onclick="appendAudios()">
+                            <span class="icon">➕</span> Load More Kathas
+                        </button>
+                     </div>`;
+        }
+
+        /* ── Other files ── */
+        if (others.length) {
+            html += `<hr style="margin:1.5rem 0;border:1px solid #e8eaf6;"><div class="section-label">📎 Files</div>`;
+            html += `<div style="display:flex;flex-direction:column;gap:0.65rem;">`;
+            others.forEach(f => {
+                const icon = f.mimeType.includes('pdf') ? '📄' : '📎';
+                html += `<div style="background:white;border-radius:12px;padding:0.9rem 1.25rem;display:flex;align-items:center;gap:1rem;border:1px solid #e8eaf6;">
+                    <span style="font-size:1.6rem;flex-shrink:0;">${icon}</span>
+                    <span style="flex:1;font-size:0.9rem;color:#333;">${esc(f.name)}</span>
+                    <a href="${dlUrl(f.id)}" target="_blank" style="background:#1a237e;color:white;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;text-decoration:none;">⬇</a>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+
+        area.innerHTML = html;
+        if (audios.length) appendAudios();
+
+        // Re-highlight if same track is active
+        if (activeTrackId) highlightTrack(activeTrackId);
+    }
+
+    function appendAudios() {
+        const list = document.getElementById('trackList');
+        const wrap = document.getElementById('loadMoreWrap');
+        if (!list) return;
+
+        const start = displayedCount;
+        const end   = Math.min(start + PAGE_SIZE, currentAudios.length);
+
+        let html = '';
+        for (let i = start; i < end; i++) {
+            const a = currentAudios[i];
+            const name = cleanName(a.name);
+            html += `<div class="track-item" id="ti_${a.id}" onclick="playTrack('${a.id}','${esc(name)}')">
+                <div class="track-num">${i + 1}</div>
+                <div class="track-info">
+                    <h4 title="${esc(a.name)}">${esc(name)}</h4>
+                    <span>Audio Katha</span>
+                </div>
+                <button class="track-play-btn" title="Play">▶</button>
+                <a class="track-dl" href="${dlUrl(a.id)}" target="_blank" download onclick="event.stopPropagation()">⬇ Download</a>
+            </div>`;
+        }
+
+        list.insertAdjacentHTML('beforeend', html);
+        displayedCount = end;
+
+        // Show/Hide button
+        if (displayedCount < currentAudios.length) {
+            wrap.style.display = 'flex';
+        } else {
+            wrap.style.display = 'none';
+        }
+    }
+
+    function playTrack(id, name) {
+        activeTrackId = id;
+
+        // ── Update Now Playing Panel ──
+        npTitle.textContent = name;
+        npDl.href = dlUrl(id);
+
+        // Set iframe to Drive's own audio player (no CORS block!)
+        frame.src = previewUrl(id);
+
+        panel.classList.add('active');
+
+        // Scroll to player
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Highlight active track
+        highlightTrack(id);
+    }
+
+    function highlightTrack(id) {
+        document.querySelectorAll('.track-item').forEach(el => {
+            el.classList.remove('active');
+            const btn = el.querySelector('.track-play-btn');
+            if (btn) btn.textContent = '▶';
+            const h4 = el.querySelector('h4');
+            if (h4) h4.classList.remove('active-title');
+        });
+        const active = document.getElementById(`ti_${id}`);
+        if (active) {
+            active.classList.add('active');
+            const btn = active.querySelector('.track-play-btn');
+            if (btn) btn.textContent = '⏸';
+            const h4 = active.querySelector('h4');
+            if (h4) h4.classList.add('active-title');
+        }
+    }
+
+    function stopPlayer() {
+        frame.src = '';
+        panel.classList.remove('active');
+        activeTrackId = null;
+        document.querySelectorAll('.track-item').forEach(el => {
+            el.classList.remove('active');
+            const btn = el.querySelector('.track-play-btn');
+            if (btn) btn.textContent = '▶';
+            const h4 = el.querySelector('h4');
+            if (h4) h4.classList.remove('active-title');
+        });
+    }
+
+    function goBack() {
+        if (!folderStack.length) return;
+        renderFolder(folderStack.pop(), false);
+    }
+
+    renderFolder(ROOT_ID, false);
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Learn about the history and heritage of Shree Kantheriya Hanumanji Dham, Surat.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        .page-hero { background:linear-gradient(135deg,#8B1914,#e65100); padding:3rem 2.5rem 2rem; color:white; }
+        .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
+        .page-hero p { color:rgba(255,255,255,0.85); margin:0.5rem 0 0; font-size:1.05rem; }
+        .about-card { background:white; border-radius:16px; padding:2.5rem; box-shadow:0 4px 20px rgba(0,0,0,0.06); margin-bottom:2rem; border-left:5px solid #8B1914; }
+        .about-card h3 { color:#8B1914; font-size:1.25rem; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid #f0e8dd; }
+        .about-card p { color:#555; line-height:1.8; margin-bottom:1rem; font-size:0.97rem; }
+        .activities-list { list-style:none; padding:0; margin:0; }
+        .activities-list li { padding:0.7rem 1rem; border-bottom:1px solid #f0e8dd; color:#555; display:flex; align-items:center; gap:0.75rem; font-size:0.95rem; }
+        .activities-list li { transition: all 0.4s ease; }
+        .activities-list li:hover { background: #fff8f2; transform: translateX(10px); color: var(--primary); }
+        .activities-list li::before { content: ""; display: none; }
+        .activities-list li .lucide { color: var(--primary); margin-right: 0.5rem; }
+        .activities-list li:last-child { border-bottom:none; }
+        @media(max-width:768px){ .about-grid { grid-template-columns:1fr !important; } }
+    </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="page-hero animate-fade-in">
+    <h1>📝 About Us</h1>
+    <p>The history and heritage of Shree Kantheriya Hanumanji Dham, Surat</p>
+</div>
+
+<div class="app-container">
+    <main class="content-area animate-slide-up delay-100">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem;" class="about-grid sr sr-up">
+
+            <div class="about-card">
+                <h3><i data-lucide="landmark" style="margin-right:8px;"></i> શ્રી કંથેરીયા હનુમાનજી મંદિર</h3>
+                <p>સુરત શહેરના આંગણે, કોઝવે રોડ, સીંગણપુર ગામ પાસે બિરાજમાન શ્રી કંથેરીયા હનુમાનજી મહારાજનું મંદિર આવેલ છે. ત્યાં આ દેવમંદિરમાં અંબિકામાતા, કોટેશ્વર મહાદેવ, સિદ્ધિવિનાયક ગણપતિ મહારાજ, કાળભૈરવ દાદા, બજરંગદાસ બાપા, શનિદેવ મહારાજ, સાંઈબાબા તથા અન્ય દેવી-દેવતાઓ પણ બિરાજમાન છે।</p>
+                <p>આ મંદિરનો પ્રાણપ્રતિષ્ઠા મહોત્સવ તા. ૨૫ થી ૨૭ નવેમ્બર ૨૦૧૦ દરમિયાન ખૂબ જ ભાવ અને શ્રદ્ધાપૂર્વક આયોજન કરવામાં આવ્યો હતો. આ મહોત્સવ સનાતન ધર્મ અનુસાર ત્રણ દિવસ સુધી, જેમાં અંદાજિત ૧,૫૦,૦૦૦ લોકોએ પ્રસાદ ગ્રહણ કર્યો હતો।</p>
+                <p>ઈ.સ. ૧૯૧૬ ના ઇતિહાસ અનુસાર, નવાબ સાહેબ તાલીબ મોહમ્મદ ખાનને સ્વપ્નમાં હનુમાનજીના દર્શન થયા. ખોદકામ કરવામાં આવ્યું, જેમાં કંથીના ઝાડમાંથી હનુમાનજી પ્રગટ થયા. ત્યારબાદ ઝરીનાનું નામ બદલીને કેસરબાઈ રાખવામાં આવ્યું।</p>
+            </div>
+
+            <div class="about-card">
+                <h3><i data-lucide="building-2" style="margin-right:8px;"></i> Shree Kantheriya Hanumanji Dham</h3>
+                <p>Welcome to <strong>Shree Kantheriya Hanumanji Dham</strong>. Situated near Singanpore village in Surat, the Dham represents profound peace and religious heritage. We are dedicated to providing a serene environment for devotees from all walks of life.</p>
+                <p>The foundation of this deeply respected temple spans many decades, rooted in the values of Sanatan Dharma. The temple frequently hosts monumental events, Katha discourses, and immense daily Darshan where thousands of devotees gather.</p>
+                <p>The deity of Hanumanji Maharaj at the Surat temple was brought in Jyot Swarup from Kantheriya Hanumanji Dham, Palanpur, under the divine inspiration of P.P. Shree Pragiriji Maharaj.</p>
+            </div>
+        </div>
+
+        <div class="about-card sr sr-up sr-d1">
+            <h3><i data-lucide="list-checks" style="margin-right:8px;"></i> મંદિરમાં ચાલતી ધાર્મિક તથા સામાજિક પ્રવૃત્તિઓ</h3>
+            <ul class="activities-list">
+                <li><i data-lucide="flame"></i> રોજ સવારે પ્રાતઃકાળ યજ્ઞ-આરતી</li>
+                <li><i data-lucide="music"></i> રોજ સાંજે આરતી અને ધૂન</li>
+                <li><i data-lucide="utensils"></i> સનાતન ધર્મ અનુસાર દૈનિક સાધુ-સંતોનું અન્નક્ષેત્ર</li>
+                <li><i data-lucide="gift"></i> શનિવારે સવારે ૫ થી રાત્રે ૧૨ સુધી જનતાને ગાંઠિયા-ગુંદીનો પ્રસાદ</li>
+                <li><i data-lucide="truck"></i> શહેરમાં હરતું-ફરતું અન્નક્ષેત્ર દ્વારા ગરીબો તથા ભિક્ષુકોને ભોજન-પ્રસાદ</li>
+                <li><i data-lucide="library"></i> સુંદરકાંડના પાઠ, ભજનસંધ્યા તથા પૂનમના દિવસે ૧૦૮ હનુમાન ચાલીસાના પાઠ</li>
+                <li><i data-lucide="heart-handshake"></i> આપાતકાલ તથા અન્ય સહાય પ્રવૃત્તિઓ</li>
+            </ul>
+        </div>
+
+    </main>
+</div>
+
+<div id="social-connect-root"></div>
+<div id="site-footer"></div>
+<script src="scripts/includes.js"></script>
+</body>
+</html>
+

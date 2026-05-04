@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shree Kantheriya Hanumanji Dham, Surat</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description"
+        content="Welcome to Shree Kantheriya Hanumanji Dham, Causeway Road, Singanpore village, Surat. Daily Darshan, Live Katha, and Spiritual Events.">
+
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <link href="css/home.css" rel="stylesheet" type="text/css" />
+
+    <script src="scripts/jquery-1.2.6.min.js" type="text/javascript"></script>
+    <script type="text/JavaScript" src="scripts/slimbox2.js"></script>
+    <link rel="stylesheet" href="scripts/slimbox2.css" type="text/css" media="screen" />
+
+
+</head>
+
+<body>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="two-tier-header">
+        <div class="header-logo-group">
+            <a href="index.html">
+                <img src="Updated_Img/LOGO.jpg" alt="Kantheriyadham Logo" />
+            </a>
+            <a href="index.html">
+                <div class="header-title-text"><span
+                        style="font-size: 1.2rem; display: block; opacity: 0.9;">SHREE</span>KANTHERIYADHAM</div>
+            </a>
+        </div>
+        <div class="header-avatars">
+            <div class="avatar-item">
+                <img src="images/001_final.png" alt="Saint" />
+                <span>॥ જય બાપજી ॥</span>
+            </div>
+            <div class="avatar-item">
+                <img src="images/001_final.png" alt="Saint" />
+                <span>॥ જય બાપજી ॥</span>
+            </div>
+            <div class="avatar-item">
+                <img src="images/001_final.png" alt="Saint" />
+                <span>॥ જય બાપજી ॥</span>
+            </div>
+        </div>
+    </header>
+    <!-- ===================== NAVIGATION ===================== -->
+    <nav class="orange-navbar-row" id="mainNav">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT US</a></li>
+            <li><a href="daily-darshan.html">DAILY DARSHAN</a></li>
+            <li><a href="our-saints.html">SAINTS</a></li>
+            <li>
+                <a href="photo-gallery.html" class="has-dropdown">MEDIA</a>
+                <div class="dropdown">
+                    <a href="photo-gallery.html"><span class="dd-icon"><i data-lucide="image"
+                                class="icon-blue"></i></span> Photo Gallery</a>
+                    <a href="video-gallery.html"><span class="dd-icon"><i data-lucide="film"
+                                class="icon-red"></i></span> Video Gallery</a>
+                    <a href="media-audio.html"><span class="dd-icon"><i data-lucide="music"
+                                class="icon-purple"></i></span> Audio Kathas</a>
+                    <a href="media-wallpaper.html"><span class="dd-icon"><i data-lucide="layout"
+                                class="icon-indigo"></i></span> Wallpapers</a>
+                    <a href="news.html"><span class="dd-icon"><i data-lucide="newspaper" class="icon-green"></i></span>
+                        News Articles</a>
+                </div>
+            </li>
+            <li><a href="livekatha.html">LIVE KATHA</a></li>
+            <li><a href="contact-us.html">CONTACT</a></li>
+            <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- ===================== CAROUSEL SLIDER ===================== -->
+    <div class="full-screen-hero-edge">
+        <div class="carousel-container" id="mainCarousel">
+            <div class="carousel-track" id="carouselTrack"
+                style="display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); width: 300%;">
+                <!-- Slide 1 -->
+                <div class="carousel-slide" style="flex: 0 0 33.3333%; position: relative; overflow: hidden;">
+                    <video id="video" autoplay loop muted playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+                        <source src="carousel slider/DJI_0016.MP4" type="video/mp4">
+                    </video>
+                    <div class="slide-overlay" style="z-index: 1;"></div>
+                    <div class="slide-content" style="z-index: 2; position: relative;">
+                        <h1>Shree Kantheriyadham</h1>
+                        <p>A place of peace, devotion and divine blessings in the heart of Surat.</p>
+                        <a href="daily-darshan.html" class="hero-btn-orange">View Daily Darshan</a>
+                    </div>
+                </div>
+                <!-- Slide 2: Live Darshan -->
+                <div class="carousel-slide slide-torn-paper" style="flex: 0 0 33.3333%;">
+                    <div class="torn-left">
+                        <a href="livekatha.html">
+                            <div class="live-badge"><span style="color:red; font-size: 2rem;">▶</span> LIVE</div>
+                        </a>
+                        <h2>KANTHERIYADHAM<br>LIVE DARSHAN</h2>
+                    </div>
+                    <div class="torn-right"
+                        style="background-image: url('carousel%20slider/PXL_20260308_090449694.RAW-01.jpg');"></div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-slide"
+                    style="flex: 0 0 33.3333%; background-image: url('carousel%20slider/DS_18097.JPG');">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h1>JAI HANUMANJI</h1>
+                        <p>Experience the divine blessings of Shree Kantheriya Hanumanji Maharaj.</p>
+                        <a href="about.html" class="hero-btn-orange">Our History</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wave arch overlay at bottom -->
+            <!-- <div class="arch-overlay">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,80 L1440,80 L1440,40 Q1080,0 720,40 Q360,80 0,40 Z" fill="#fdfaf6" />
+                </svg>
+            </div> -->
+
+            <!-- Arrow Controls -->
+            <div class="carousel-controls">
+                <div class="nav-arrow" id="btnPrev">←</div>
+                <div class="nav-arrow" id="btnNext">→</div>
+                <div class="slide-indicator" id="slideIndicator">1<span class="small">/3</span></div>
+            </div>
+
+            <!-- Darshan tab -->
+            <div class="vertical-tab" onclick="window.location.href='daily-darshan.html';">
+                <span>Daily Darshan</span>
+            </div>
+            <!-- <div class="hero-om-watermark">🕉</div> -->
+        </div>
+    </div>
+
+    <!-- ===================== CAROUSEL JS ===================== -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const track = document.getElementById('carouselTrack');
+            const nextBtn = document.getElementById('btnNext');
+            const prevBtn = document.getElementById('btnPrev');
+            const indicator = document.getElementById('slideIndicator');
+            let idx = 0, timer;
+
+            function goTo(i) {
+                idx = (i + 3) % 3;
+                track.style.transform = `translateX(-${idx * 33.333333}%)`;
+                indicator.innerHTML = `${idx + 1}<span class="small">/3</span>`;
+            }
+
+            nextBtn.addEventListener('click', () => { goTo(idx + 1); resetTimer(); });
+            prevBtn.addEventListener('click', () => { goTo(idx - 1); resetTimer(); });
+
+            function resetTimer() {
+                clearInterval(timer);
+                timer = setInterval(() => goTo(idx + 1), 30000);
+            }
+            resetTimer();
+        });
+    </script>
+
+    <!-- ===================== QUICK LINKS BAR ===================== -->
+    <div class="page-section" style="padding-top: 2.5rem;">
+        <div class="quick-links-bar">
+            <a href="daily-darshan.html" class="quick-link-item">
+                <span class="icon"><i data-lucide="sun"></i></span>
+                <span>Daily Darshan</span>
+            </a>
+            <a href="livekatha.html" class="quick-link-item">
+                <span class="icon"><i data-lucide="tv"></i></span>
+                <span>Live Katha</span>
+            </a>
+            <a href="photo-gallery.html" class="quick-link-item">
+                <span class="icon"><i data-lucide="camera"></i></span>
+                <span>Photo Gallery</span>
+            </a>
+            <a href="donate.html" class="quick-link-item">
+                <span class="icon"><i data-lucide="heart"></i></span>
+                <span>Donate</span>
+            </a>
+            <a href="contact-us.html" class="quick-link-item">
+                <span class="icon"><i data-lucide="phone"></i></span>
+                <span>Contact Us</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===================== ANNOUNCEMENT SECTION ===================== -->
+    <div id="announcement-root" class="page-section" style="display: none; padding-top: 0;">
+        <div class="announcement-container sr sr-scale">
+            <div class="ann-header">
+                <div class="ann-ticker-wrap">
+                    <div class="ann-ticker-content">✨New Announcement✨: Check out the latest highlights and stay updated
+                        with the divine events at Kantheriyadham. ✨ Stay Blessed! ✨
+                    </div>
+                </div>
+                <span class="ann-badge"><i data-lucide="megaphone"></i>New Announcement</span>
+            </div>
+            <div id="ann-content" class="ann-card">
+                <div class="gallery-loading" style="padding: 2rem;">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== WAYS TO DEVOTE SECTION ===================== -->
+    <div class="page-section glass-panel" id="ways-to-devote"
+        style="padding: 4rem 2.5rem;margin-bottom: 4rem; background: #fffdfa;">
+        <div class="devote-header">
+            <div class="section-heading" style="padding:0 0 2rem;">
+                <h2>Ways to Devote</h2>
+            </div>
+        </div>
+        <div class="devote-grid">
+            <!-- Card 1 -->
+            <div class="devote-card sr sr-up">
+                <div class="card-number">1.</div>
+                <div class="card-inner">
+                    <div class="card-image-wrap">
+                        <img src="images/1.jpeg" alt="Daily Live Katha">
+                    </div>
+                    <div class="card-content">
+                        <h3>1. Live Katha</h3>
+                        <p>Watch live Kathas and get dose of spiritual wisdom and inspiration.</p>
+                        <a href="livekatha.html" class="devote-btn">
+                            <i data-lucide="play-circle"></i> Watch Live
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="devote-card sr sr-up" style="transition-delay: 0.1s;">
+                <div class="card-number">2.</div>
+                <div class="card-inner">
+                    <div class="card-image-wrap">
+                        <img src="images/2.jpg" alt="Daily Darshan Updates">
+                    </div>
+                    <div class="card-content">
+                        <h3>2. Daily Darshan Updates</h3>
+                        <p>Receive daily divine photos of Shri Kshetriya Hanumanji Maharaaj.</p>
+                        <a href="daily-darshan.html" class="devote-btn">
+                            <i data-lucide="eye"></i> View Darshan
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="devote-card sr sr-up" style="transition-delay: 0.2s;">
+                <div class="card-number">3.</div>
+                <div class="card-inner">
+                    <div class="card-image-wrap">
+                        <img src="images/3.jpg" alt="Devote & Donate">
+                    </div>
+                    <div class="card-content">
+                        <h3>3. Devote & Donate</h3>
+                        <p>Support Annakshetra, temple initiatives, and receive divine blessings.</p>
+                        <a href="donate.html" class="devote-btn">
+                            <i data-lucide="heart"></i> Make A Donation
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="devote-card sr sr-up" style="transition-delay: 0.3s;">
+                <div class="card-number">4.</div>
+                <div class="card-inner">
+                    <div class="card-image-wrap">
+                        <img src="images/4.jpg" alt="Learn & Explore More">
+                    </div>
+                    <div class="card-content">
+                        <h3>4. Learn & Explore More</h3>
+                        <p>Read spiritual articles and history of Shri Kshetriya Hanumanji Maharaaj.</p>
+                        <a href="about.html" class="devote-btn">
+                            <i data-lucide="book-open"></i> Read Our History
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== ABOUT SPLIT SECTION ===================== -->
+    <div class="page-section">
+        <div class="about-split sr sr-scale">
+            <div class="about-split-left sr sr-left">
+                <h2>શ્રી કંથેરીયા<br>હનુમાનજી મહારાજ</h2>
+                <p>શ્રી કંથેરીયા હનુમાનજી મહારાજની શરણમાં આવેલો કોઈપણ ભક્ત ક્યારેય ખાલી હાથે પાછો ગયો નથી. તેમની દરેક
+                    મનોકામના હંમેશા પૂર્ણ થાય છે. દાદાના પવિત્ર દર્શન, ભક્તિ અને સેવાથી અસંખ્ય વ્યક્તિઓ અને પરિવારોને
+                    શાંતિ, સુરક્ષા અને સુખ પ્રાપ્ત થયું છે.</p>
+                <a href="about.html" class="hero-btn-orange" style="width: fit-content;">Read Our History</a>
+                <div class="hero-om-watermark" style="font-size: 20rem !important; left: 40% !important;">🕉</div>
+            </div>
+            <div class="about-split-right sr sr-right">
+                <img src="Updated_Img/TJS00522.jpg" alt="Shree Kantheriyadham" />
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== STATS ROW ===================== -->
+    <div class="page-section">
+        <div class="stats-row">
+            <div class="stat-card sr sr-d1">
+                <div class="number" data-count="15" data-suffix="+">15+</div>
+                <div class="label">Years of Service</div>
+            </div>
+            <div class="stat-card sr sr-d2">
+                <div class="number" data-count="1.5" data-suffix="L+">1.5L+</div>
+                <div class="label">Devotees at Mahotsav</div>
+            </div>
+            <div class="stat-card sr sr-d3">
+                <div class="number" data-count="365" data-suffix="">365</div>
+                <div class="label">Days of Darshan</div>
+            </div>
+            <div class="stat-card sr sr-d4">
+                <div class="number">∞</div>
+                <div class="label">Blessings Given</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== SERVICES GRID ===================== -->
+    <div class="page-section">
+        <div class="section-heading sr">
+            <h2>Our Services</h2>
+            <a href="about.html" style="color:#f57c00; font-weight:600; text-decoration: none;">View All →</a>
+        </div>
+        <div class="services-grid">
+            <a href="livekatha.html" class="service-card sr sr-d1"><span class="svc-icon"><i data-lucide="tv"
+                        class="icon-cyan"></i></span>
+                <h3>Live Katha</h3>
+                <p>Watch live Kathas and spiritual discourses from the Dham right on our website.</p>
+            </a>
+            <a href="daily-darshan.html" class="service-card sr sr-d2"><span class="svc-icon"><i data-lucide="sun"
+                        class="icon-amber"></i></span>
+                <h3>Daily Darshan</h3>
+                <p>View today's divine darshan images uploaded daily from the temple.</p>
+            </a>
+            <a href="donate.html" class="service-card sr sr-d3"><span class="svc-icon"><i data-lucide="heart"
+                        class="icon-pink"></i></span>
+                <h3>Online Donation</h3>
+                <p>Contribute to the Annakshetra, temple construction and community service activities.</p>
+            </a>
+            <a href="our-saints.html" class="service-card sr sr-d4"><span class="svc-icon"><i data-lucide="users"
+                        class="icon-rose"></i></span>
+                <h3>Our Saints</h3>
+                <p>Learn about the revered lineage of saints who have blessed this Dham.</p>
+            </a>
+            <a href="photo-gallery.html" class="service-card sr sr-d5"><span class="svc-icon"><i data-lucide="camera"
+                        class="icon-blue"></i></span>
+                <h3>Photo Gallery</h3>
+                <p>Browse memories of Mahotsavs, Kathas, and special spiritual events.</p>
+            </a>
+            <a href="our_publication.html" class="service-card sr sr-d6"><span class="svc-icon"><i
+                        data-lucide="book-open" class="icon-indigo"></i></span>
+                <h3>Publications</h3>
+                <p>Download spiritual books, Hanuman Chalisa, prayer guides and devotional content.</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===================== DARSHAN TIMINGS TABLE ===================== -->
+    <div class="page-section sr sr-up">
+        <div class="section-heading">
+            <h2>Darshan Timings</h2>
+        </div>
+        <table class="timings-table">
+            <thead>
+                <tr>
+                    <th>Session</th>
+                    <th>Time</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Session"><i data-lucide="sunrise" class="icon-amber"
+                            style="width:16px; margin-right:4px;"></i> Morning
+                    </td>
+                    <td data-label="Time">6:00 AM – 12:00 PM</td>
+                    <td data-label="Activity">Mangala Aarti, Darshan & Bhajan</td>
+                </tr>
+                <tr>
+                    <td data-label="Session"><i data-lucide="sun" class="icon-amber"
+                            style="width:16px; margin-right:4px;"></i> Afternoon
+                    </td>
+                    <td data-label="Time">12:00 PM – 4:00 PM</td>
+                    <td data-label="Activity">Rajbhog Aarti & Rest</td>
+                </tr>
+                <tr>
+                    <td data-label="Session"><i data-lucide="sunset" class="icon-amber"
+                            style="width:16px; margin-right:4px;"></i> Evening
+                    </td>
+                    <td data-label="Time">4:00 PM – 9:00 PM</td>
+                    <td data-label="Activity">Sandhya Aarti, Darshan & Dhun</td>
+                </tr>
+                <tr>
+                    <td data-label="Session"><i data-lucide="moon" class="icon-indigo"
+                            style="width:16px; margin-right:4px;"></i> Saturday
+                        Special</td>
+                    <td data-label="Time">5:00 AM – 12:00 AM</td>
+                    <td data-label="Activity">108 Hanuman Chalisa, Prasad Vitaran</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ===================== MAP SECTION ===================== -->
+    <div class="page-section">
+        <div class="map-section sr">
+            <div class="section-heading" style="padding:0 0 2rem;">
+                <h2>📍 Find Us</h2>
+            </div>
+            <div class="map-wrap">
+                <div class="map-info-panel">
+                    <h3>Shree Kantheriyadham</h3>
+                    <div class="mi-row"><span class="ic"><i data-lucide="map-pin" style="width:16px;"></i></span>
+                        <p>Causeway Road, Singanpore Village,<br>Surat – 395 004, Gujarat, India</p>
+                    </div>
+                    <div class="mi-row"><span class="ic"><i data-lucide="mail" style="width:16px;"></i></span><a
+                            href="mailto:kantheriyadhamsurat@gmail.com">kantheriyadhamsurat@gmail.com</a></div>
+                    <div class="mi-row"><span class="ic"><i data-lucide="clock" style="width:16px;"></i></span>
+                        <p>Daily · 6:00 AM – 9:00 PM<br>Saturday · 5:00 AM – 12:00 AM</p>
+                    </div>
+                    <a href="https://maps.google.com/maps?q=Kantheriya+Hanumanji+Dham+Singanpore+Surat" target="_blank"
+                        class="get-directions"><i data-lucide="map" style="width:16px; margin-right:4px;"></i> Get
+                        Directions</a>
+                </div>
+                <div class="map-frame">
+                    <iframe
+                        src="https://maps.google.com/maps?q=Kantheriya+Hanumanji+Dham,+Singanpore,+Surat,+Gujarat&output=embed&z=15"
+                        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="Shree Kantheriyadham Location"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== SOCIAL CONNECT ===================== -->
+    <div id="social-connect-root"></div>
+
+    <!-- ===================== SITE FOOTER ===================== -->
+    <div id="site-footer"></div>
+
+    <script src="env/config.js?v=1.1"></script>
+    <script src="scripts/includes.js"></script>
+    <script>
+        /* Announcement Logic */
+        (function () {
+            // Safety Fallback
+            const config = window.KCONFIG || {
+                API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+                FOLDERS: { ANNOUNCEMENT: '1cowNCBj87_Q87ZV3gXZvJAOy3Rl56TPn' }
+            };
+
+            const root = document.getElementById('announcement-root');
+            const cont = document.getElementById('ann-content');
+            if (!root || !cont) return;
+
+            async function loadAnnouncement() {
+                try {
+                    const folderId = config.FOLDERS.ANNOUNCEMENT;
+                    const apiKey = config.API_KEY;
+                    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&orderBy=modifiedTime+desc&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`;
+
+                    const r = await fetch(url);
+                    if (!r.ok) throw new Error('API Error');
+                    const data = await r.json();
+
+                    if (data.files && data.files.length > 0) {
+                        const file = data.files[0];
+                        if (file.mimeType.startsWith('image/')) {
+                            const imgUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w2000`;
+                            cont.innerHTML = `<img src="${imgUrl}" class="ann-img" alt="${file.name}" />`;
+                            root.style.display = 'block';
+                        } else if (file.mimeType.startsWith('video/')) {
+                            // Adding autoplay=1 and mute=1 to the URL
+                            const videoUrl = `https://drive.google.com/file/d/${file.id}/preview`;
+                            cont.innerHTML = `
+                                <div class="ann-video-wrapper">
+                                    <iframe src="${videoUrl}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                                </div>`;
+                            root.style.display = 'block';
+                        } else {
+                            root.style.display = 'none';
+                        }
+                    } else {
+                        root.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.warn('Announcement error:', e);
+                    root.style.display = 'none';
+                }
+            }
+            loadAnnouncement();
+        })();
+    </script>
+
+
+
+</body>
+
+</html>

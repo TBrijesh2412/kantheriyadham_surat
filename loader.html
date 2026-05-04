@@ -1,0 +1,275 @@
+<div id="kh-loader" class="kh-loader-wrap">
+    <!-- Animated Background Particles -->
+    <div class="loader-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="kh-loader-content">
+        <div class="om-container">
+            <div class="rotating-ring"></div>
+            <div class="kh-loader-logo">
+                <img src="./Updated_Img/LOGO.jpg" alt="Logo">
+            </div>
+        </div>
+
+        <div class="kh-loader-text">
+            <span class="kh-brand-top">SHREE</span>
+            <span class="kh-brand-main">KANTHERIYADHAM</span>
+            <div class="loading-status">
+                <div class="status-dot"></div>
+                <span class="status-text">LOADING...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+    .kh-loader-wrap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, #8B1914 0%, #4a0807 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
+        overflow: hidden;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    /* Floating Particles */
+    .loader-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Particle Base */
+.loader-particles .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #ff9800, #ff6f00);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 152, 0, 0.8),
+                0 0 15px rgba(255, 152, 0, 0.5);
+    animation: floatParticle 5s infinite ease-in-out;
+    opacity: 0;
+}
+
+/* Different particle variations for randomness */
+.loader-particles .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 4s; }
+.loader-particles .particle:nth-child(2) { left: 25%; animation-delay: 1s; animation-duration: 5s; }
+.loader-particles .particle:nth-child(3) { left: 40%; animation-delay: 2s; animation-duration: 3.5s; }
+.loader-particles .particle:nth-child(4) { left: 65%; animation-delay: 0.5s; animation-duration: 5.5s; }
+.loader-particles .particle:nth-child(5) { left: 80%; animation-delay: 1.5s; animation-duration: 4.5s; }
+.loader-particles .particle:nth-child(6) { left: 15%; animation-delay: 2.5s; animation-duration: 4.2s; }
+
+/* Animation */
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+        filter: blur(2px);
+    }
+    20% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) scale(1.2);
+        filter: blur(0px);
+    }
+    80% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-10vh) scale(0.3);
+        opacity: 0;
+        filter: blur(3px);
+    }
+}
+    .om-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 220px;
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+
+    .rotating-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-top-color: #D48B01;
+        border-bottom-color: #D48B01;
+        border-radius: 50%;
+        animation: rotateRing 3s linear infinite;
+    }
+
+    .rotating-ring::after {
+        content: '';
+        position: absolute;
+        inset: 15px;
+        border: 1px solid rgba(212, 139, 1, 0.2);
+        border-radius: 50%;
+    }
+
+    @keyframes rotateRing {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .kh-loader-logo {
+        width: 120px;
+        height: 120px;
+        z-index: 2;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid rgba(212, 139, 1, 0.5);
+        box-shadow: 0 0 30px rgba(212, 139, 1, 0.3);
+        animation: logoPulse 2s ease-in-out infinite;
+    }
+
+    .kh-loader-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes logoPulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 30px rgba(212, 139, 1, 0.3);
+        }
+
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(212, 139, 1, 0.5);
+        }
+    }
+
+    .kh-loader-text {
+        position: absolute;
+        top: calc(50% + 150px);
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: white;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .kh-brand-top {
+        display: block;
+        font-size: 0.9rem;
+        letter-spacing: 8px;
+        font-weight: 300;
+        opacity: 0.7;
+        margin-bottom: 0.5rem;
+    }
+
+    .kh-brand-main {
+        display: block;
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+        background: linear-gradient(90deg, #fff, #D48B01, #fff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+        to {
+            background-position: 200% center;
+        }
+    }
+
+    .loading-status {
+        margin-top: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #D48B01;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #D48B01;
+        animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.5);
+            opacity: 0.5;
+        }
+    }
+
+    .status-text {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    /* Loaded State */
+    .kh-loader-wrap.loaded {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.2);
+        filter: blur(30px);
+    }
+
+    .kh-loader-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+</style>

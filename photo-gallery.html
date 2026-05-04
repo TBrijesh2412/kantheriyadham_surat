@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description"
+        content="Browse all event photo galleries from Shree Kantheriya Hanumanji Dham – full quality photos, easy download.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* ===================== PAGE HERO ===================== */
+        .page-hero {
+            background: linear-gradient(135deg, #8B1914, #e65100);
+            padding: 3rem 2.5rem 2rem;
+            color: white;
+        }
+
+        .page-hero h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0.5rem 0 0;
+        }
+
+        /* ===================== LOADING ===================== */
+        .gallery-loading {
+            text-align: center;
+            padding: 4rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0e8dd;
+            border-top: 4px solid #8B1914;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===================== BREADCRUMB / NAV ===================== */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #8B1914;
+            border: 2px solid #f0e8dd;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+        }
+
+        .back-btn:hover {
+            border-color: #8B1914;
+            background: #fff8f2;
+        }
+
+        /* ===================== FOLDER GRID ===================== */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .folder-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #f0e8dd;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .folder-card:hover {
+            transform: translateY(-5px);
+            border-color: #f57c00;
+            box-shadow: 0 10px 25px rgba(139, 25, 20, 0.15);
+        }
+
+        .folder-card .folder-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .folder-card h4 {
+            color: #8B1914;
+            font-size: 0.9rem;
+            margin: 0 0 0.25rem;
+            word-break: break-word;
+        }
+
+        .folder-card .fc-count {
+            color: #aaa;
+            font-size: 0.78rem;
+        }
+
+        /* ===================== MASONRY PHOTO GRID ===================== */
+        /* CSS Column Masonry — photos keep natural aspect ratio like Pinterest */
+        .masonry-grid {
+            columns: 4 200px;
+            column-gap: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0.85rem;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f5ede5;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            /* NATURAL ASPECT RATIO — no cropping! */
+            display: block;
+            transition: opacity 0.4s;
+        }
+
+        .masonry-item img.loading {
+            opacity: 0;
+        }
+
+        .masonry-item img.loaded {
+            opacity: 1;
+        }
+
+        /* Hover overlay */
+        .masonry-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(139, 25, 20, 0.65) 0%, transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 0.75rem;
+        }
+
+        .masonry-item:hover .masonry-overlay {
+            opacity: 1;
+        }
+
+        .masonry-overlay .photo-name {
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .masonry-overlay .zoom-icon {
+            margin-left: auto;
+            font-size: 1.3rem;
+        }
+
+        /* ===================== LIGHTBOX ===================== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lb-loader {
+            position: absolute;
+            color: white;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lb-loader .spinner {
+            border-top-color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+            border-top-color: white;
+        }
+
+        .lb-img-area {
+            position: relative;
+            max-width: 92vw;
+            max-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            min-height: 200px;
+        }
+
+        .lb-img-area img {
+            max-width: 92vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .lb-img-area img.lb-ready {
+            opacity: 1;
+        }
+
+        .lb-img-area .lb-loader {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .lb-img-area img.lb-ready~.lb-loader {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .lb-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .lb-name {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            max-width: 80vw;
+            text-align: center;
+        }
+
+        .lb-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .lb-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 0.55rem 1.25rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+            font-family: inherit;
+        }
+
+        .lb-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .lb-dl {
+            background: linear-gradient(135deg, #f57c00, #8B1914);
+            border: none;
+            font-weight: 700;
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+
+        .lb-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lb-counter {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.82rem;
+        }
+
+        /* Prev / Next arrows */
+        .lb-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .lb-prev {
+            left: 1rem;
+        }
+
+        .lb-next {
+            right: 1rem;
+        }
+
+        /* ===================== SECTION LABEL ===================== */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            color: #8B1914;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 1.3rem;
+            background: linear-gradient(to bottom, #f57c00, #8B1914);
+            border-radius: 4px;
+        }
+
+        .error-box {
+            background: #fff3e0;
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: #5d4037;
+        }
+
+        @media(max-width:600px) {
+            .masonry-grid {
+                columns: 2 140px;
+                column-gap: 0.5rem;
+            }
+
+            .masonry-item {
+                margin-bottom: 0.5rem;
+            }
+
+            .lb-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+
+
+    <div class="page-hero animate-fade-in">
+        <h1>📸 Photo Gallery</h1>
+        <p>Browse all events — click any photo to view full quality &amp; download</p>
+    </div>
+
+    <!-- ===================== LIGHTBOX ===================== -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" onclick="closeLb()">✕</button>
+        <button class="lb-arrow lb-prev" onclick="prevPhoto()">‹</button>
+        <button class="lb-arrow lb-next" onclick="nextPhoto()">›</button>
+        <div class="lb-img-area" id="lbImgArea">
+            <img id="lbImg" src="" alt="" />
+            <div class="lb-loader">
+                <div class="spinner"></div><span style="color:rgba(255,255,255,0.7);">Loading full quality...</span>
+            </div>
+        </div>
+        <div class="lb-bottom">
+            <div class="lb-name" id="lbName"></div>
+            <div class="lb-actions">
+                <button class="lb-btn" onclick="prevPhoto()">← Prev</button>
+                <span class="lb-counter" id="lbCounter"></span>
+                <button class="lb-btn" onclick="nextPhoto()">Next →</button>
+                <a id="lbDl" class="lb-btn lb-dl" href="#" target="_blank" download>⬇ Download Original</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content-area animate-slide-up delay-100">
+            <button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← Back to Albums</button>
+            <div id="galleryArea">
+                <div class="gallery-loading">
+                    <div class="spinner"></div>
+                    <p>Loading gallery...</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+    <div id="social-connect-root"></div>
+<div id="site-footer"></div>
+    <script src="env/config.js?v=1.1"></script>
+    <script src="scripts/includes.js"></script>
+    <script>
+        /* ===================== CONFIG ===================== */
+        // Safety Fallback if env/config.js fails
+        const config = window.KCONFIG || {
+            API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+            FOLDERS: { PHOTO_GALLERY: '1sJD2vcrzb3yT2wyjVecFeCUmtaQ1Avlt' },
+            PAGE_SIZE: 15
+        };
+
+        const API_KEY = config.API_KEY;
+        const ROOT_ID = config.FOLDERS.PHOTO_GALLERY;
+        const PAGE_SIZE = config.PAGE_SIZE || 15;
+        /* ================================================= */
+
+        let currentFolderId = ROOT_ID;
+        let folderStack = [];
+        let currentImages = [];
+        let currentIndex = 0;
+        let displayedCount = 0;
+
+        const area = document.getElementById('galleryArea');
+        const backBtn = document.getElementById('backBtn');
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lbImg');
+
+        /* Google Drive URL helpers */
+        const thumbGrid = id => `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+        const thumbHQ = id => `https://drive.google.com/thumbnail?id=${id}&sz=w2000`;
+        const dlUrl = id => `https://drive.google.com/uc?id=${id}&export=download`;
+        const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+        /* ===================== FETCH ===================== */
+        async function fetchFolder(id) {
+            area.innerHTML = `<div class="gallery-loading"><div class="spinner"></div><p>Loading...</p></div>`;
+            try {
+                const url = `https://www.googleapis.com/drive/v3/files`
+                    + `?q='${id}'+in+parents+and+trashed=false`
+                    + `&orderBy=name`
+                    + `&key=${API_KEY}`
+                    + `&fields=files(id,name,mimeType)`
+                    + `&pageSize=300`;
+                const r = await fetch(url);
+                if (!r.ok) throw new Error('API ' + r.status);
+                return (await r.json()).files || [];
+            } catch (e) {
+                area.innerHTML = `<div class="error-box">
+                <h3>⚠️ Could not load gallery</h3>
+                <p>Make sure the Google Drive folder is set to <strong>"Anyone with the link → Viewer"</strong>.</p>
+                <p style="margin-top:0.5rem;font-size:0.85rem;color:#999;">Error: ${e.message}</p></div>`;
+                return [];
+            }
+        }
+
+        /* ===================== RENDER ===================== */
+        async function renderFolder(id, addStack = true) {
+            if (addStack && currentFolderId !== id) folderStack.push(currentFolderId);
+            currentFolderId = id;
+            backBtn.style.display = folderStack.length ? 'inline-flex' : 'none';
+
+            const files = await fetchFolder(id);
+            if (!files.length) {
+                area.innerHTML = `<p style="color:#aaa;text-align:center;padding:4rem;">This album is empty.</p>`;
+                return;
+            }
+
+            const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+            const images = files.filter(f => f.mimeType.startsWith('image/'));
+
+            currentImages = images;
+            displayedCount = 0;
+            let html = '';
+
+            /* ─── Folders ─── */
+            if (folders.length) {
+                html += `<div class="section-label">📁 Event Albums</div>`;
+                html += `<div class="folder-grid">`;
+                folders.forEach(f => {
+                    html += `<div class="folder-card" onclick="renderFolder('${f.id}')">
+                    <div class="folder-icon">📷</div>
+                    <h4>${esc(f.name)}</h4>
+                </div>`;
+                });
+                html += `</div>`;
+            }
+
+            /* ─── Masonry Photos ─── */
+            if (images.length) {
+                if (folders.length) html += `<hr style="margin:1.5rem 0;border:1px solid #f0e8dd;">`;
+                html += `<div class="section-label">Photos <span id="photoCount" style="color:#aaa;font-size:0.8rem;font-weight:400;">(${images.length})</span></div>`;
+                html += `<div class="masonry-grid" id="masonryGrid"></div>`;
+                html += `<div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                        <button class="load-more-btn" onclick="appendPhotos()">
+                            <span class="icon">➕</span> Load More Photos
+                        </button>
+                     </div>`;
+            }
+
+            if (!folders.length && !images.length) {
+                area.innerHTML = `<p style="color:#aaa;text-align:center;padding:4rem;">No photos found in this album.</p>`;
+                return;
+            }
+
+            area.innerHTML = html;
+            if (images.length) appendPhotos();
+        }
+
+        function appendPhotos() {
+            const grid = document.getElementById('masonryGrid');
+            const wrap = document.getElementById('loadMoreWrap');
+            if (!grid) return;
+
+            const start = displayedCount;
+            const end = Math.min(start + PAGE_SIZE, currentImages.length);
+
+            let html = '';
+            for (let i = start; i < end; i++) {
+                const img = currentImages[i];
+                html += `<div class="masonry-item" onclick="openLb(${i})" title="${esc(img.name)}">
+                <img
+                    src="${thumbGrid(img.id)}"
+                    alt="${esc(img.name)}"
+                    loading="lazy"
+                    class="loading"
+                    onload="this.classList.remove('loading');this.classList.add('loaded');"
+                    onerror="this.closest('.masonry-item').style.display='none';"
+                />
+                <div class="masonry-overlay">
+                    <span class="photo-name">${esc(img.name)}</span>
+                    <span class="zoom-icon">🔍</span>
+                </div>
+            </div>`;
+            }
+
+            grid.insertAdjacentHTML('beforeend', html);
+            displayedCount = end;
+
+            // Sync with Scroll Reveal engine
+            if (window.refreshScrollReveal) window.refreshScrollReveal();
+
+            // Show/Hide button
+            if (displayedCount < currentImages.length) {
+                wrap.style.display = 'flex';
+            } else {
+                wrap.style.display = 'none';
+            }
+        }
+
+        function goBack() {
+            if (!folderStack.length) return;
+            renderFolder(folderStack.pop(), false);
+        }
+
+        /* ===================== LIGHTBOX ===================== */
+        function openLb(i) {
+            currentIndex = i;
+            showLb();
+        }
+
+        function showLb() {
+            const img = currentImages[currentIndex];
+            lbImg.classList.remove('lb-ready');
+            lbImg.src = '';
+
+            document.getElementById('lbName').textContent = img.name;
+            document.getElementById('lbCounter').textContent = `${currentIndex + 1} / ${currentImages.length}`;
+            document.getElementById('lbDl').href = dlUrl(img.id);
+
+            const hq = new Image();
+            hq.onload = () => {
+                lbImg.src = hq.src;
+                lbImg.classList.add('lb-ready');
+            };
+            hq.src = thumbHQ(img.id);
+
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLb() {
+            lb.classList.remove('active');
+            lbImg.src = '';
+            document.body.style.overflow = '';
+        }
+
+        function nextPhoto() {
+            currentIndex = (currentIndex + 1) % currentImages.length;
+            showLb();
+        }
+
+        function prevPhoto() {
+            currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+            showLb();
+        }
+
+        /* Keyboard navigation */
+        document.addEventListener('keydown', e => {
+            if (!lb.classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextPhoto();
+            if (e.key === 'ArrowLeft') prevPhoto();
+            if (e.key === 'Escape') closeLb();
+        });
+
+        /* Close on overlay click */
+        lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+
+        /* ===================== INIT ===================== */
+        renderFolder(ROOT_ID, false);
+    </script>
+</body>
+
+</html>

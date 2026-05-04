@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Gallery</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description"
+        content="Browse news clippings, articles and media coverage from Shree Kantheriya Hanumanji Dham – high quality posters and press releases.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* ===================== PAGE HERO ===================== */
+        .page-hero {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 3.5rem 2.5rem 2.5rem;
+            color: white;
+        }
+
+        .page-hero h1 {
+            color: white;
+            font-size: 2.8rem;
+            margin: 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0.75rem 0 0;
+            font-size: 1.1rem;
+        }
+
+        /* ===================== LOADING ===================== */
+        .gallery-loading {
+            text-align: center;
+            padding: 5rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0e8dd;
+            border-top: 4px solid #8B1914;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===================== BUTTONS ===================== */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: white;
+            color: #8B1914;
+            border: 2px solid #f0e8dd;
+            padding: 0.7rem 1.4rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            margin-bottom: 2rem;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            border-color: #8B1914;
+            background: #fff8f2;
+            transform: translateX(-3px);
+        }
+
+        /* ===================== FOLDER GRID ===================== */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .folder-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #eee;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .folder-card:hover {
+            transform: translateY(-8px);
+            border-color: #f57c00;
+            box-shadow: 0 15px 40px rgba(139, 25, 20, 0.15);
+        }
+
+        .folder-card .folder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .folder-card h4 {
+            color: #1a1a2e;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* ===================== PHOTO GRID ===================== */
+        .masonry-grid {
+            columns: 4 250px;
+            column-gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f9f9f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.5s;
+        }
+
+        .masonry-item img.loading { opacity: 0; }
+        .masonry-item img.loaded { opacity: 1; }
+
+        .masonry-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.25rem;
+        }
+
+        .masonry-item:hover .masonry-overlay { opacity: 1; }
+
+        .masonry-overlay .photo-name {
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ===================== LIGHTBOX ===================== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .lightbox.active { display: flex; }
+
+        .lb-img-area {
+            position: relative;
+            max-width: 95vw;
+            max-height: 82vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-img-area img {
+            max-width: 95vw;
+            max-height: 82vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .lb-img-area img.lb-ready { opacity: 1; }
+
+        .lb-bottom {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lb-name { color: white; font-size: 1rem; text-align: center; max-width: 90vw; }
+
+        .lb-actions { display: flex; gap: 1rem; align-items: center; }
+
+        .lb-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .lb-btn:hover { background: rgba(255, 255, 255, 0.25); }
+        .lb-dl { background: linear-gradient(135deg, #f57c00, #8B1914); border: none; }
+
+        .lb-close {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            background: rgba(255,255,255,0.1); color: white; border: none;
+            width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer;
+        }
+
+        .section-label {
+            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+            color: #1a1a2e; font-size: 1.5rem; font-weight: 800;
+        }
+
+        .section-label::before {
+            content: ''; display: inline-block; width: 6px; height: 1.5rem;
+            background: #8B1914; border-radius: 4px;
+        }
+
+        @media(max-width:600px) {
+            .masonry-grid { columns: 2 150px; }
+            .page-hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="site-nav"></div>
+
+    <div class="page-hero animate-fade-in">
+        <h1>📰 News Gallery</h1>
+        <p>Explore press clippings, media coverage, and official announcements</p>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" onclick="closeLb()">✕</button>
+        <div class="lb-img-area">
+            <img id="lbImg" src="" alt="" />
+        </div>
+        <div class="lb-bottom">
+            <div class="lb-name" id="lbName"></div>
+            <div class="lb-actions">
+                <button class="lb-btn" onclick="prevPhoto()">← Previous</button>
+                <button class="lb-btn" onclick="nextPhoto()">Next →</button>
+                <a id="lbDl" class="lb-btn lb-dl" href="#" target="_blank">⬇ Download Original</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content-area animate-slide-up delay-100" style="padding-top: 3rem;">
+            <button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← Back to Categories</button>
+            <div id="galleryArea">
+                <div class="gallery-loading">
+                    <div class="spinner"></div>
+                    <p>Loading news archives...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="site-footer"></div>
+    <script src="scripts/includes.js"></script>
+    <script src="env/config.js?v=1.1"></script>
+    <script>
+        /* ===================== CONFIG ===================== */
+        const config = window.KCONFIG || {
+            API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+            FOLDERS: { NEWS_GALLERY: '1Mw_pLTfiyxJUKYzAZxb8JZs5nJjINn4w' }
+        };
+        const API_KEY = config.API_KEY;
+        const ROOT_ID = config.FOLDERS.NEWS_GALLERY || '180Kuq1K3xg__jG4R9XOD9hMdajdiAsxt';
+        const PAGE_SIZE = 24;
+        /* ================================================= */
+
+        let currentFolderId = ROOT_ID;
+        let folderStack = [];
+        let currentImages = [];
+        let currentIndex = 0;
+
+        const area = document.getElementById('galleryArea');
+        const backBtn = document.getElementById('backBtn');
+
+        const thumbGrid = id => `https://drive.google.com/thumbnail?id=${id}&sz=w800`;
+        const thumbHQ = id => `https://drive.google.com/thumbnail?id=${id}&sz=w2500`;
+        const dlUrl = id => `https://drive.google.com/uc?id=${id}&export=download`;
+        const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+        async function fetchFolder(id) {
+            area.innerHTML = `<div class="gallery-loading"><div class="spinner"></div><p>Fetching content...</p></div>`;
+            try {
+                const url = `https://www.googleapis.com/drive/v3/files?q='${id}'+in+parents+and+trashed=false&orderBy=name&key=${API_KEY}&fields=files(id,name,mimeType)&pageSize=500`;
+                const r = await fetch(url);
+                if (!r.ok) throw new Error('API Error');
+                return (await r.json()).files || [];
+            } catch (e) {
+                area.innerHTML = `<div class="error-box"><h3>⚠️ Connection Error</h3><p>Ensure the Drive folder is public.</p></div>`;
+                return [];
+            }
+        }
+
+        async function renderFolder(id, addStack = true) {
+            if (addStack && currentFolderId !== id) folderStack.push(currentFolderId);
+            currentFolderId = id;
+            backBtn.style.display = folderStack.length ? 'inline-flex' : 'none';
+
+            const files = await fetchFolder(id);
+            const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+            const images = files.filter(f => f.mimeType.startsWith('image/'));
+
+            currentImages = images;
+            let html = '';
+
+            if (folders.length) {
+                html += `<div class="section-label">📂 Media Categories</div><div class="folder-grid">`;
+                folders.forEach(f => {
+                    html += `<div class="folder-card" onclick="renderFolder('${f.id}')"><span class="folder-icon">📰</span><h4>${esc(f.name)}</h4></div>`;
+                });
+                html += `</div>`;
+            }
+
+            if (images.length) {
+                if (folders.length) html += `<hr style="margin:2rem 0; opacity:0.1;">`;
+                html += `<div class="section-label">Articles & News Cutouts</div><div class="masonry-grid" id="masonryGrid">`;
+                images.forEach((img, i) => {
+                    html += `<div class="masonry-item" onclick="openLb(${i})">
+                        <img src="${thumbGrid(img.id)}" alt="${esc(img.name)}" loading="lazy" class="loading" onload="this.classList.add('loaded')">
+                        <div class="masonry-overlay"><span class="photo-name">${esc(img.name)}</span></div>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+
+            if (!files.length) html = `<p style="text-align:center; padding:5rem; color:#aaa;">No content found in this section.</p>`;
+            area.innerHTML = html;
+        }
+
+        function openLb(i) {
+            currentIndex = i;
+            const img = currentImages[i];
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lbImg');
+            
+            lbImg.classList.remove('lb-ready');
+            lbImg.src = thumbHQ(img.id);
+            document.getElementById('lbName').textContent = img.name;
+            document.getElementById('lbDl').href = dlUrl(img.id);
+            
+            lb.classList.add('active');
+            lbImg.onload = () => lbImg.classList.add('lb-ready');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLb() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextPhoto() { currentIndex = (currentIndex + 1) % currentImages.length; openLb(currentIndex); }
+        function prevPhoto() { currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length; openLb(currentIndex); }
+
+        function goBack() { if (folderStack.length) renderFolder(folderStack.pop(), false); }
+
+        document.addEventListener('keydown', e => {
+            if (!document.getElementById('lightbox').classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextPhoto();
+            if (e.key === 'ArrowLeft') prevPhoto();
+            if (e.key === 'Escape') closeLb();
+        });
+
+        renderFolder(ROOT_ID, false);
+    </script>
+</body>
+</html>

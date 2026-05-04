@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Gallery</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Watch spiritual event videos from Shree Kantheriya Hanumanji Dham, Surat.">
+    <link href="css/modern.css" rel="stylesheet" type="text/css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 3rem 2.5rem 2rem;
+            color: white;
+        }
+
+        .page-hero h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0.5rem 0 0;
+        }
+
+        /* Loading */
+        .gallery-loading {
+            text-align: center;
+            padding: 4rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0e8dd;
+            border-top: 4px solid #8B1914;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Folder Cards */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .folder-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #f0e8dd;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .folder-card:hover {
+            transform: translateY(-5px);
+            border-color: #1a1a2e;
+            box-shadow: 0 10px 25px rgba(26, 26, 46, 0.15);
+        }
+
+        .folder-card .folder-icon {
+            font-size: 3rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .folder-card h4 {
+            color: #1a1a2e;
+            font-size: 0.9rem;
+            margin: 0;
+            word-break: break-word;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-thumb {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: linear-gradient(135deg, #1a1a2e, #2d2d5e);
+            overflow: hidden;
+        }
+
+        .video-thumb img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-thumb .play-btn {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            transition: background 0.3s;
+        }
+
+        .video-card:hover .play-btn {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .play-btn .circle {
+            width: 60px;
+            height: 60px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-card:hover .circle {
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-info h4 {
+            font-size: 0.9rem;
+            color: #1a1a2e;
+            margin: 0 0 0.5rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-dl {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #1a1a2e;
+            color: white;
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .video-dl:hover {
+            background: #e65100;
+        }
+
+        /* Video Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        /* Video Player must be ON TOP of the Playlist Modal */
+        #videoModal { z-index: 100000; }
+        #playlistModal { z-index: 99999; }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .video-player-wrap {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .video-player-wrap iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: block;
+            border: none;
+        }
+
+        .modal-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .modal-dl {
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #f57c00, #8B1914);
+            color: white;
+            padding: 0.65rem 1.75rem;
+            border-radius: 25px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #1a1a2e;
+            border: 2px solid #e0e0ff;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+        }
+
+        .back-btn:hover {
+            border-color: #1a1a2e;
+            background: #f0f0ff;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a2e;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 1.3rem;
+            background: linear-gradient(to bottom, #3949ab, #1a1a2e);
+            border-radius: 4px;
+        }
+
+        .error-box {
+            background: #fff3e0;
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: #5d4037;
+        }
+
+        @media(max-width:600px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- YouTube Section --- */
+        .yt-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid #f0e8dd;
+        }
+
+        .youtube-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .playlist-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            border-color: #8B1914;
+        }
+
+        .playlist-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .playlist-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .playlist-badge {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 35%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .playlist-badge .count {
+            font-size: 1.4rem;
+        }
+
+        .playlist-badge .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .playlist-info {
+            padding: 1.25rem;
+        }
+
+        .playlist-info h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #1a1a2e;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        .load-more-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .load-more-btn {
+            background: white;
+            color: #8B1914;
+            border: 2px solid #8B1914;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .load-more-btn:hover {
+            background: #8B1914;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Playlist Modal */
+        .modal-body-scroll {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .playlist-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .yt-item-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .yt-item-row:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .yt-item-thumb {
+            width: 120px;
+            aspect-ratio: 16/9;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .yt-item-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .yt-item-title {
+            flex: 1;
+            color: white;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media(max-width: 1100px) {
+            .youtube-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width: 850px) {
+            .youtube-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 500px) {
+            .youtube-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+
+    <div class="page-hero animate-fade-in">
+        <h1>🎬 Video Gallery</h1>
+        <p>Watch spiritual events, Kathas and Mahotsav videos — play directly on website</p>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <button class="modal-close" onclick="closeVideo()">✕</button>
+        <div class="video-player-wrap">
+            <iframe id="videoFrame" src="" allowfullscreen allow="autoplay"></iframe>
+        </div>
+        <div class="modal-title" id="modalTitle"></div>
+        <a id="modalDl" class="modal-dl" href="#" target="_blank">⬇ Download Video</a>
+    </div>
+
+    <!-- Playlist Items Modal -->
+    <div class="modal-overlay" id="playlistModal">
+        <button class="modal-close" onclick="closePlaylist()">✕</button>
+        <div class="video-player-wrap" style="background: #111; padding: 2rem;">
+            <h2 id="playlistPopupTitle" style="color: white; margin-bottom: 1.5rem; font-size: 1.5rem;">Playlist Content
+            </h2>
+            <div class="modal-body-scroll">
+                <div id="playlistItemsArea" class="playlist-items-list">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <main class="content-area animate-slide-up delay-100">
+            <button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← Back to Folders</button>
+            <div id="galleryArea">
+                <div class="gallery-loading">
+                    <div class="spinner"></div>
+                    <p>Loading videos...</p>
+                </div>
+            </div>
+
+            <!-- YouTube Playlists Section -->
+            <section class="yt-section" id="youtubeSection">
+                <div class="section-label">📺 YouTube Collections</div>
+                <div class="youtube-grid" id="youtubeGrid">
+                    <!-- Playlists injected here -->
+                </div>
+                <div class="load-more-wrap" id="ytLoadMoreWrap" style="display:none;">
+                    <button class="load-more-btn" onclick="fetchYouTubePlaylists()">
+                        <span class="icon">➕</span> Load More Collections
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        
+        <script src="scripts/includes.js"></script>
+
+
+        <script src="env/config.js?v=1.1"></script>
+        <script src="scripts/includes.js"></script>
+        <script>
+            /* ===================== CONFIG ===================== */
+            const config = window.KCONFIG || {
+                API_KEY: 'AIzaSyChdsl-x6EafM8WdifJ2BaU1bySO8CJ9JU',
+                FOLDERS: { VIDEO_GALLERY: '1CFG3eDh1vRAq79LoKWYJqBq_eQozsE50' },
+                PAGE_SIZE: 15
+            };
+            const API_KEY = config.API_KEY;
+            const ROOT_ID = config.FOLDERS.VIDEO_GALLERY;
+            const PAGE_SIZE = config.PAGE_SIZE || 15;
+            /* ================================================= */
+
+            let currentFolderId = ROOT_ID;
+            let folderStack = [];
+            let currentVideos = [];
+            let displayedCount = 0;
+
+            const area = document.getElementById('galleryArea');
+            const backBtn = document.getElementById('backBtn');
+
+            async function fetchFolder(id) {
+                area.innerHTML = `<div class="gallery-loading"><div class="spinner"></div><p>Loading...</p></div>`;
+                try {
+                    const url = `https://www.googleapis.com/drive/v3/files?q='${id}'+in+parents+and+trashed=false&orderBy=name&key=${API_KEY}&fields=files(id,name,mimeType,thumbnailLink)&pageSize=200`;
+                    const r = await fetch(url);
+                    if (!r.ok) throw new Error('API error ' + r.status);
+                    return (await r.json()).files || [];
+                } catch (e) {
+                    area.innerHTML = `<div class="error-box"><h3>⚠️ Could not load videos</h3><p>Check that the Google Drive folder sharing is set to "Anyone with the link".</p><p style="margin-top:0.5rem;font-size:0.85rem;color:#999;">${e.message}</p></div>`;
+                    return [];
+                }
+            }
+
+            function thumb(id) { return `https://drive.google.com/thumbnail?id=${id}&sz=w600`; }
+            function dlUrl(id) { return `https://drive.google.com/uc?id=${id}&export=download`; }
+            function preview(id) { return `https://drive.google.com/file/d/${id}/preview`; }
+            function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+            async function renderFolder(id, addStack = true) {
+                if (addStack && currentFolderId !== id) folderStack.push(currentFolderId);
+                currentFolderId = id;
+                backBtn.style.display = folderStack.length ? 'inline-flex' : 'none';
+
+                const files = await fetchFolder(id);
+                if (!files.length) { area.innerHTML = `<p style="color:#aaa;text-align:center;padding:3rem;">No videos found in this folder.</p>`; return; }
+
+                const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+                const videos = files.filter(f => f.mimeType.startsWith('video/'));
+                const others = files.filter(f => !f.mimeType.startsWith('video/') && f.mimeType !== 'application/vnd.google-apps.folder');
+
+                currentVideos = videos;
+                displayedCount = 0;
+                let html = '';
+
+                if (folders.length) {
+                    html += `<div class="section-label">📁 Event Albums</div>`;
+                    html += `<div class="folder-grid">`;
+                    folders.forEach(f => {
+                        html += `<div class="folder-card" onclick="renderFolder('${f.id}')"><div class="folder-icon">📁</div><h4>${esc(f.name)}</h4></div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if (videos.length) {
+                    if (folders.length) html += `<hr style="margin:1.5rem 0;border:1px solid #f0e8dd;">`;
+                    html += `<div class="section-label">🎬 Videos <span style="color:#aaa;font-size:0.78rem;font-weight:400;">(${videos.length})</span></div>`;
+                    html += `<div class="video-grid" id="videoGrid"></div>`;
+                    html += `<div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                        <button class="load-more-btn" onclick="appendVideos()">
+                            <span class="icon">➕</span> Load More Videos
+                        </button>
+                     </div>`;
+                }
+
+                if (others.length) {
+                    html += `<hr style="margin:1.5rem 0;border:1px solid #f0e8dd;"><div class="section-label">📎 Other Files</div>`;
+                    html += `<div style="display:flex;flex-direction:column;gap:0.75rem;">`;
+                    others.forEach(f => {
+                        html += `<div style="background:white;border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;border:1px solid #f0e8dd;">
+                    <span style="font-size:1.8rem;">📎</span>
+                    <span style="flex:1;font-size:0.9rem;color:#333;">${esc(f.name)}</span>
+                    <a href="${dlUrl(f.id)}" target="_blank" style="background:#1a1a2e;color:white;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;">⬇ Download</a>
+                </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                area.innerHTML = html;
+                if (videos.length) appendVideos();
+            }
+
+            function appendVideos() {
+                const grid = document.getElementById('videoGrid');
+                const wrap = document.getElementById('loadMoreWrap');
+                if (!grid) return;
+
+                const start = displayedCount;
+                const end = Math.min(start + PAGE_SIZE, currentVideos.length);
+
+                let html = '';
+                for (let i = start; i < end; i++) {
+                    const v = currentVideos[i];
+                    html += `<div class="video-card">
+                <div class="video-thumb" onclick="playVideo('${v.id}','${esc(v.name)}')">
+                    <img src="${thumb(v.id)}" alt="${esc(v.name)}" loading="lazy" onerror="this.style.display='none'" />
+                    <div class="play-btn"><div class="circle">▶</div></div>
+                </div>
+                <div class="video-info">
+                    <h4>${esc(v.name)}</h4>
+                    <a href="${dlUrl(v.id)}" class="video-dl" target="_blank">⬇ Download</a>
+                </div>
+            </div>`;
+                }
+
+                grid.insertAdjacentHTML('beforeend', html);
+                displayedCount = end;
+
+                // Sync with Scroll Reveal engine
+                if (window.refreshScrollReveal) window.refreshScrollReveal();
+
+                // Show/Hide button
+                if (displayedCount < currentVideos.length) {
+                    wrap.style.display = 'flex';
+                } else {
+                    wrap.style.display = 'none';
+                }
+            }
+
+            function goBack() {
+                if (!folderStack.length) return;
+                renderFolder(folderStack.pop(), false);
+            }
+
+            function playVideo(id, name) {
+                document.getElementById('videoFrame').src = preview(id);
+                document.getElementById('modalTitle').textContent = name;
+                document.getElementById('modalDl').href = dlUrl(id);
+                document.getElementById('videoModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeVideo() {
+                document.getElementById('videoFrame').src = '';
+                document.getElementById('videoModal').classList.remove('active');
+                
+                // Only restore scroll if NO other modals are active
+                const anyModalActive = document.querySelector('.modal-overlay.active');
+                if (!anyModalActive) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            document.getElementById('videoModal').addEventListener('click', function (e) {
+                if (e.target === this) closeVideo();
+            });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+
+            renderFolder(ROOT_ID, false);
+
+            /* --- YouTube Logic --- */
+            const YT_CHANNEL_ID = 'UCab8TQ9rLY49e-1TRqFQ03A';
+            let ytNextPageToken = '';
+
+            async function fetchYouTubePlaylists() {
+                const grid = document.getElementById('youtubeGrid');
+                const loader = document.getElementById('ytLoadMoreWrap');
+
+                try {
+                    const url = `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${YT_CHANNEL_ID}&maxResults=12&pageToken=${ytNextPageToken}&key=${API_KEY}`;
+                    const r = await fetch(url);
+                    if (!r.ok) {
+                        const errorDetails = await r.json();
+                        const reason = errorDetails.error?.errors?.[0]?.reason || 'Unknown';
+                        const msg = errorDetails.error?.message || 'YouTube API error';
+                        throw new Error(`[${r.status}] ${reason}: ${msg}`);
+                    }
+                    const data = await r.json();
+
+                    ytNextPageToken = data.nextPageToken || '';
+                    loader.style.display = ytNextPageToken ? 'flex' : 'none';
+
+                    data.items.forEach(item => {
+                        const card = `
+                <div class="playlist-card" onclick="openPlaylist('${item.id}', '${esc(item.snippet.title)}')">
+                    <div class="playlist-thumb">
+                        <img src="${item.snippet.thumbnails.high.url}" alt="${esc(item.snippet.title)}" loading="lazy">
+                        <div class="playlist-badge">
+                            <span class="count">${item.contentDetails.itemCount}</span>
+                            <span class="label">Videos</span>
+                            <span style="font-size:1.5rem; margin-top:5px;">📋</span>
+                        </div>
+                    </div>
+                    <div class="playlist-info">
+                        <h4>${esc(item.snippet.title)}</h4>
+                    </div>
+                </div>`;
+                        grid.insertAdjacentHTML('beforeend', card);
+                    });
+                } catch (e) {
+                    console.error('YT Fetch Error:', e);
+                    grid.innerHTML = `
+                        <div class="error-box" style="grid-column: 1 / -1; background: #fff8f8; border: 1px solid #ffcccc; text-align: left; padding: 1.5rem;">
+                            <h3 style="color:#d32f2f; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 1.5rem;">⚠️</span> YouTube API Configuration Required
+                            </h3>
+                            <div style="background: #eee; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-bottom: 1rem; color: #333; border-left: 4px solid #d32f2f;">
+                                <strong>Error Details:</strong><br>
+                                ${esc(e.message)}
+                            </div>
+                            <p style="color:#666; font-size: 0.9rem; line-height: 1.5;">
+                                <strong>How to fix:</strong> Your API Key is working, but the "YouTube" service is not yet active. 
+                                <br>1. Log into <a href="https://console.cloud.google.com/" target="_blank" style="color:#d32f2f; font-weight:700;">Google Cloud Console</a>.
+                                <br>2. Go to <strong>APIs & Services > Library</strong>.
+                                <br>3. Search for <strong>"YouTube Data API v3"</strong> and click <strong>Enable</strong>.
+                            </p>
+                            <a href="https://www.youtube.com/@kantheriyadham" target="_blank" class="load-more-btn" style="margin-top: 1.5rem; display: inline-flex; width: auto;">
+                                <span style="font-size:1.2rem;">📺</span> Visit Channel Manually
+                            </a>
+                        </div>
+                    `;
+                }
+            }
+
+            async function openPlaylist(playlistId, title) {
+                const modal = document.getElementById('playlistModal');
+                const listArea = document.getElementById('playlistItemsArea');
+                const titleEl = document.getElementById('playlistPopupTitle');
+
+                titleEl.innerText = title;
+                listArea.innerHTML = '<div class="gallery-loading"><div class="spinner"></div></div>';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                try {
+                    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${API_KEY}`;
+                    const r = await fetch(url);
+                    const data = await r.json();
+
+                    let html = '';
+                    data.items.forEach(item => {
+                        const vidId = item.snippet.resourceId.videoId;
+                        html += `
+                <div class="yt-item-row" onclick="playYTVideo('${vidId}', '${esc(item.snippet.title)}')">
+                    <div class="yt-item-thumb">
+                        <img src="${item.snippet.thumbnails.medium.url}" alt="">
+                    </div>
+                    <div class="yt-item-title">${esc(item.snippet.title)}</div>
+                    <div style="color:rgba(255,255,255,0.4); font-size:1.2rem;">▶</div>
+                </div>`;
+                    });
+                    listArea.innerHTML = html;
+                } catch (e) {
+                    listArea.innerHTML = '<p style="color:white; text-align:center;">Error loading playlist videos.</p>';
+                }
+            }
+
+            function playYTVideo(vidId, title) {
+                // Reuse the main video player modal
+                const mainFrame = document.getElementById('videoFrame');
+                const mainTitle = document.getElementById('modalTitle');
+                const mainDl = document.getElementById('modalDl');
+                const mainModal = document.getElementById('videoModal');
+
+                mainFrame.src = `https://www.youtube.com/embed/${vidId}?autoplay=1`;
+                mainTitle.textContent = title;
+                mainDl.style.display = 'none'; // Can't direct download YT via drive proxy
+
+                mainModal.classList.add('active');
+                // Keep overflow hidden (nested modal scenario)
+            }
+
+            function closePlaylist() {
+                document.getElementById('playlistModal').classList.remove('active');
+                
+                // Only restore scroll if the Video Modal is also closed
+                if (!document.getElementById('videoModal').classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Initial YT Load
+            fetchYouTubePlaylists();
+        </script>
+    </div>
+    <div id="social-connect-root"></div>
+<div id="site-footer"></div>
+</body>
+
+</html>

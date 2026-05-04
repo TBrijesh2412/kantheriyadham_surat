@@ -1,0 +1,341 @@
+<!-- ═══════════════════════════════════════════════════════
+     MODERN FOOTER — Shared across all pages
+     ═══════════════════════════════════════════════════════ -->
+<style>
+    .modern-footer {
+        background: linear-gradient(180deg, #1c0505 0%, #0d0101 100%);
+        color: rgba(255,255,255,0.72);
+        padding: 3.5rem 0 0;
+        position: relative;
+        overflow: hidden;
+        margin-top: 0;
+    }
+    /* Gradient top border */
+    .modern-footer::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, #8B1914, #f57c00, #d4af37, #f57c00, #8B1914);
+    }
+    /* Premium Om Decoration */
+    .f-om-decoration {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+        font-size: 12rem;
+        opacity: 0.06;
+        pointer-events: none;
+        color: #f57c00;
+        font-family: serif;
+        line-height: 1;
+        transition: all 1s ease;
+        animation: omRotate 20s linear infinite;
+        z-index: 0;
+    }
+    @keyframes omRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .modern-footer:hover .f-om-decoration {
+        opacity: 0.12;
+        transform: scale(1.1);
+    }
+    /* 4-column grid */
+    .f-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1.5fr;
+        gap: 2.5rem;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 3rem 3rem;
+        position: relative; z-index: 1;
+    }
+    /* Brand column */
+    .f-brand-name {
+        font-size: 1.15rem; font-weight: 800; color: white;
+        margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .f-brand-text {
+        font-size: 0.83rem; line-height: 1.75;
+        color: rgba(255,255,255,0.55); margin-bottom: 1.2rem;
+    }
+    /* Social icons */
+    .f-socials { display: flex; gap: 0.55rem; }
+    .f-social {
+        width: 34px; height: 34px; border-radius: 50%;
+        background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.95rem; text-decoration: none; color: rgba(255,255,255,0.65);
+        transition: all 0.25s ease;
+    }
+    .f-social:hover { background: #f57c00; border-color: #f57c00; color: white; transform: translateY(-3px); }
+    /* Column headings */
+    .f-col h4 {
+        color: white; font-size: 0.78rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 1.8px;
+        margin-bottom: 1.2rem; padding-bottom: 0.55rem;
+        position: relative;
+    }
+    .f-col h4::after {
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 26px; height: 2px;
+        background: linear-gradient(90deg, #f57c00, #8B1914); border-radius: 2px;
+    }
+    /* Link list */
+    .f-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .f-links a {
+        color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem;
+        display: flex; align-items: center; gap: 0.4rem;
+        transition: all 0.2s ease;
+    }
+    .f-links a::before { content: '›'; color: #f57c00; font-size: 1.1rem; line-height: 1; }
+    .f-links a:hover { color: #f57c00; padding-left: 5px; }
+    /* Contact rows */
+    .f-contact-row {
+        display: flex; align-items: flex-start; gap: 0.65rem; margin-bottom: 0.75rem;
+    }
+    .f-contact-row .fci { font-size: 0.9rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .f-contact-row p, .f-contact-row a {
+        color: rgba(255,255,255,0.6); font-size: 0.82rem; line-height: 1.55; margin: 0; text-decoration: none;
+    }
+    .f-contact-row a:hover { color: #f57c00; }
+    /* Bottom bar */
+    .f-bottom {
+        background: rgba(0,0,0,0.35);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 1rem 3rem;
+        display: flex; justify-content: space-between; align-items: center;
+        position: relative; z-index: 1;
+    }
+    .f-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.38); margin: 0; }
+    .f-bottom .f-love { color: rgba(255,255,255,0.32); font-size: 0.76rem; }
+    .f-bottom .f-love span { color: #f57c00; }
+
+    /* Visitor Counter */
+    .f-visitor-counter {
+        display: none; /* Hidden until counts are loaded */
+        align-items: center; gap: 0.8rem;
+        background: rgba(255,255,255,0.05);
+        padding: 0.4rem 1.2rem;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.1);
+        margin: 0.5rem 0;
+    }
+    .f-visitor-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); font-weight: 600; }
+    .f-visitor-num { font-size: 0.95rem; font-weight: 800; color: #f57c00; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+    .f-live-dot { width: 6px; height: 6px; background: #4CAF50; border-radius: 50%; position: relative; }
+    .f-live-dot::after {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: inherit; border-radius: inherit; animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3.5); opacity: 0; } }
+
+    @media (max-width: 900px) {
+        .f-grid { grid-template-columns: 1fr 1fr; padding: 0 1.5rem 2rem; gap: 1.8rem; }
+        .f-bottom { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+        .f-visitor-counter { order: -1; } /* On top on mobile */
+    }
+    @media (max-width: 520px) {
+        .f-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<footer class="modern-footer">
+    <div class="f-grid">
+
+        <!-- Brand -->
+        <div class="f-col">
+            <div class="f-brand-name"><i data-lucide="landmark"></i> Shree Kantheriyadham</div>
+            <p class="f-brand-text">
+                A divine abode of peace, devotion, and blessings on Causeway Road, Singanpore Village, Surat.<br>
+                ॥ જય હનુમાન ॥
+                <br>॥ જય બાપજી ॥
+            </p>
+            <style>
+                .f-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+                .f-social {
+                    width: 42px; height: 42px; border-radius: 50%;
+                    display: flex; align-items: center; justify-content: center;
+                    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+                .f-social svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.8); }
+                .f-social:hover { transform: translateY(-5px); background: #f57c00; border-color: #f57c00; box-shadow: 0 10px 20px rgba(245, 124, 0, 0.3); }
+                .f-social:hover svg { fill: white; }
+                /* Brand Colors on Hover */
+                .f-social.fb:hover { background: #1877F2; border-color: #1877F2; }
+                .f-social.ig:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-color: transparent; }
+                .f-social.yt:hover { background: #FF0000; border-color: #FF0000; }
+                .f-social.tg:hover { background: #0088cc; border-color: #0088cc; }
+            </style>
+            <div class="f-socials">
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/share/161QdwbS81/?mibextid=qi2Omg" class="f-social fb" title="Facebook" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/kantheriya_hanumanji__official?igsh=cG04cGJubmU3MTk5" class="f-social ig" title="Instagram" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/c/kantheriyadhamsurat" class="f-social yt" title="YouTube" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <!-- Telegram -->
+                <a href="https://t.me/kantheriyadham" class="f-social tg" title="Telegram" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="f-col">
+            <h4>Quick Links</h4>
+            <ul class="f-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="daily-darshan.html">Daily Darshan</a></li>
+                <li><a href="our-saints.html">Our Saints</a></li>
+                <li><a href="livekatha.html">Live Katha</a></li>
+                <li><a href="donate.html">Donate <i data-lucide="heart" style="width:12px; height:12px; margin-left: 2px;"></i></a></li>
+                <li><a href="contact-us.html">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <!-- Media Links -->
+        <div class="f-col">
+            <h4>Media</h4>
+            <ul class="f-links">
+                <li><a href="photo-gallery.html">Photo Gallery</a></li>
+                <li><a href="video-gallery.html">Video Gallery</a></li>
+                <li><a href="media-audio.html">Audio Kathas</a></li>
+                <li><a href="media-wallpaper.html">Wallpapers</a></li>
+                <li><a href="news.html">News Articles</a></li>
+                <li><a href="our_publication.html">Publications</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="f-col">
+            <h4>Contact Us</h4>
+            <div class="f-contact-row">
+                <span class="fci"><i data-lucide="map-pin"></i></span>
+                <p>Causeway Road, Singanpore Village,<br>Surat – 395 004, Gujarat, India</p>
+            </div>
+            <div class="f-contact-row">
+                <span class="fci"><i data-lucide="mail"></i></span>
+                <a href="mailto:kantheriyadhamsurat@gmail.com">kantheriyadhamsurat@gmail.com</a>
+            </div>
+            <div class="f-contact-row">
+                <span class="fci"><i data-lucide="clock"></i></span>
+                <p>Open Daily · 6:00 AM – 9:00 PM<br>Saturday · 5:00 AM – 12:00 AM</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="f-bottom">
+        <p>© 2009–2024 Shree Kantheriya Hanumanji Dham · All Rights Reserved</p>
+        
+        <div class="f-visitor-counter" id="f-visitor-counter" style="display: flex;">
+            <div class="f-live-dot"></div>
+            <span class="f-visitor-label">Total Visits</span>
+            <span class="f-visitor-num" id="f-visitor-num">74,200+</span>
+        </div>
+
+        <span class="f-love">Made with <span>♥</span> for our Devotees</span>
+    </div>
+    <div class="f-om-decoration">🕉</div>
+</footer>
+
+<!-- ===================== FLOATING KATHA BUTTON ===================== -->
+<div class="katha-float-btn" id="floatingKathaBtn">
+    <div class="katha-float-content">
+        <i data-lucide="calendar"></i>
+        <span>Katha Schedule</span>
+    </div>
+</div>
+
+<!-- ===================== KATHA SCHEDULE MODAL ===================== -->
+<div id="kathaModal" class="katha-modal">
+    <div class="katha-modal-overlay" id="kathaModalOverlay"></div>
+    <div class="katha-modal-container">
+        <div class="katha-modal-header">
+            <h2><i data-lucide="calendar"></i> Bapaji Katha Schedule</h2>
+            <button class="katha-modal-close" id="kathaModalClose">&times;</button>
+        </div>
+        <div class="katha-modal-content">
+            <div class="katha-schedule-grid">
+                
+                <!-- Katha 1 -->
+                <div class="katha-item">
+                    <div class="katha-item-header">
+                        <span class="katha-badge">દેવી ભાગવત</span>
+                    </div>
+                    <div class="katha-item-body">
+                        <div class="k-row"><i data-lucide="calendar-range"></i> ૦૪.૦૪.૨૦૧૯ થી ૧૨.૦૪.૨૦૧૯</div>
+                        <div class="k-row"><i data-lucide="map-pin"></i> કથા સ્થળ પાળ ધામ રાજકોટ</div>
+                        <div class="k-row"><i data-lucide="clock"></i> સવારે ૦૯.૦૦ થી ૧૨.૦૦</div>
+                        <div class="k-row"><i data-lucide="clock"></i> બપોરે ૦૩.૦૦ થી ૦૬.૦૦</div>
+                    </div>
+                </div>
+
+                <!-- Katha 2 -->
+                <div class="katha-item highlight">
+                    <div class="katha-item-header">
+                        <span class="katha-badge">ગૌ કથા</span>
+                    </div>
+                    <div class="katha-item-body">
+                        <div class="k-row"><i data-lucide="calendar-range"></i> ૧૩.૦૪.૨૦૧૯ થી ૧૯.૦૪.૦૧૯</div>
+                        <div class="k-row"><i data-lucide="map-pin"></i> કથા સ્થળ કન્થેરીયા ધામ મંદિર સુરત</div>
+                        <div class="k-row"><i data-lucide="moon"></i> રાત્રી ના ૦૮.૦૦ થી ૧૨.૦૦</div>
+                        <div class="tv-broadcast">
+                            <strong>📺 ડી લાઇવ લક્ષ ચેનલ (વિશ્વ ના ૧૧૧ દેશ માં)</strong><br>
+                            ૧૪.૦૪.૨૦૧૯ થી ૨૦.૦૪.૨૦૧૯ | બપોરે ૦૩.૦૦ થી ૦૬.૦૦
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Katha 3 -->
+                <div class="katha-item">
+                    <div class="katha-item-header">
+                        <span class="katha-badge">ભાગવત કથા</span>
+                    </div>
+                    <div class="katha-item-body">
+                        <div class="k-row"><i data-lucide="calendar-range"></i> ૨૪.૦૪.૨૦૧૯ થી ૩૦.૦૪.૨૦૧૯</div>
+                        <div class="k-row"><i data-lucide="map-pin"></i> તલ્લી ગામ, તા. તળાજા, જી. ભાવનગર</div>
+                        <div class="k-row"><i data-lucide="clock"></i> બપોરે ૦૩.૦૦ થી ૦૬.૦૦</div>
+                    </div>
+                </div>
+
+                <!-- Katha 4 -->
+                <div class="katha-item">
+                    <div class="katha-item-header">
+                        <span class="katha-badge">ભાગવત</span>
+                    </div>
+                    <div class="katha-item-body">
+                        <div class="k-row"><i data-lucide="calendar-range"></i> ૦૨.૦૫.૨૦૧૯ થી ૦૮.૦૫.૨૦૧૯ થી</div>
+                        <div class="k-row"><i data-lucide="map-pin"></i> કુંભણ, તા. મહુવા, જી. ભાવનગર</div>
+                        <div class="k-row"><i data-lucide="clock"></i> સવારે ૦૯.૦૦ થી ૧૨.૦૦</div>
+                        <div class="k-row"><i data-lucide="clock"></i> બપોરે ૦૩.૦૦ થી ૦૬.૦૦</div>
+                    </div>
+                </div>
+
+                <!-- Katha 5 -->
+                <div class="katha-item uk-special">
+                    <div class="katha-item-header">
+                        <span class="katha-badge">U.K. Schedule</span>
+                    </div>
+                    <div class="katha-item-body">
+                        <div class="k-row"><i data-lucide="globe"></i> ૨૨.૦૫.૨૦૧૯ થી ૨૮.૦૫.૨૦૧૯</div>
+                        <div class="k-row"><i data-lucide="map"></i> United Kingdom (U.K)</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="katha-modal-footer">
+            <p>જય કંથેરીયા હનુમાનજી મહારાજ</p>
+        </div>
+    </div>
+</div>
