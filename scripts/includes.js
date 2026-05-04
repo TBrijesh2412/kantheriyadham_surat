@@ -404,7 +404,6 @@
         loadInclude('site-nav', 'navbar.html', function() {
             highlightActiveNav();
             initMobileMenu();
-            initKathaModal();
         });
 
     function initKathaModal() {
@@ -439,7 +438,10 @@
         });
     }
 
-        loadInclude('site-footer', 'footer.html', initVisitorCounter);
+        loadInclude('site-footer', 'footer.html', function() {
+            initVisitorCounter();
+            initKathaModal();
+        });
 
         document.body.classList.add('page-loaded');
     }

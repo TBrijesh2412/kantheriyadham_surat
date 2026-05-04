@@ -1421,19 +1421,21 @@ a:hover {
 
   .nav-menu-wrapper {
     display: block;
-    /* Support display toggle */
     position: fixed;
     top: 0;
     right: -100%;
-    width: 80%;
+    width: 85%;
     max-width: 400px;
     height: 100vh;
     background: #ffffff;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
     z-index: 10000;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 2rem;
+    padding: 1.5rem;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
   }
 
   .nav-menu-wrapper.active {
