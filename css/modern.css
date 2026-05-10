@@ -1480,7 +1480,6 @@ a:hover {
   .nav-links li {
     width: 100%;
     border-bottom: 1px solid #f0e8dd;
-    padding-bottom: 1rem;
   }
 
   .nav-links li:last-child {
@@ -2071,29 +2070,49 @@ html {
     margin-bottom: 1rem;
 }
 
-.katha-item.uk-special .katha-badge {
-    background: #00247d;
+.katha-section-title {
+    grid-column: 1 / -1;
+    font-size: 1.4rem;
+    color: #8B1914;
+    font-weight: 800;
+    margin: 1.5rem 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0e8dd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .katha-item-body {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.8rem;
 }
 
 .k-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     color: #4a5568;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
+    line-height: 1.4;
 }
 
 .k-row i {
     color: #f57c00;
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.k-row.contact-info {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #f0e8dd;
+    font-weight: 600;
+    color: #2d3748;
 }
 
 .katha-item.highlight .k-row i {

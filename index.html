@@ -81,38 +81,49 @@
         <div class="carousel-container" id="mainCarousel">
             <div class="carousel-track" id="carouselTrack"
                 style="display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); width: 300%;">
-                <!-- Slide 1 -->
+                <!-- Slide 1: Video Background -->
                 <div class="carousel-slide" style="flex: 0 0 33.3333%; position: relative; overflow: hidden;">
                     <video id="video" autoplay loop muted playsinline
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
-                        <source src="carousel slider/DJI_0016.MP4" type="video/mp4">
+                        <source src="carousel%20slider/DJI_0016.mp4" type="video/mp4">
                     </video>
                     <div class="slide-overlay" style="z-index: 1;"></div>
-                    <div class="slide-content" style="z-index: 2; position: relative;">
-                        <h1>Shree Kantheriyadham</h1>
-                        <p>A place of peace, devotion and divine blessings in the heart of Surat.</p>
+                    <div class="gold-overlay" style="z-index: 2;"></div>
+                    <div class="premium-glow" style="z-index: 3;"></div>
+                    <div class="slide-content" style="z-index: 4; position: relative;">
+                        <h1 style="color: #D48B01; text-shadow: 2px 2px 20px rgba(0,0,0,0.8);">Shree Kantheriyadham</h1>
+                        <p>A place of divine peace and spiritual blessings in Surat.</p>
                         <a href="daily-darshan.html" class="hero-btn-orange">View Daily Darshan</a>
                     </div>
                 </div>
-                <!-- Slide 2: Live Darshan -->
+
+                <!-- Slide 2: Live Darshan (Full Screen Premium) -->
                 <div class="carousel-slide slide-torn-paper" style="flex: 0 0 33.3333%;">
+                    <div class="gold-overlay" style="z-index: 2;"></div>
                     <div class="torn-left">
                         <a href="livekatha.html">
-                            <div class="live-badge"><span style="color:red; font-size: 2rem;">▶</span> LIVE</div>
+                            <div class="live-badge"><span style="color:#ff0000; font-size: 1.5rem; margin-right: 8px;">●</span> LIVE</div>
                         </a>
-                        <h2>KANTHERIYADHAM<br>LIVE DARSHAN</h2>
+                        <h2 style="color: #8B1914; font-weight: 900;">KANTHERIYADHAM<br>LIVE DARSHAN</h2>
+                        <p style="color: #5d4037; font-size: 1.1rem; margin-top: 1rem;">Join thousands of devotees in our daily live spiritual discourses.</p>
+                        <a href="livekatha.html" class="hero-btn-orange" style="margin-top: 2rem;">Watch Live Now</a>
                     </div>
                     <div class="torn-right"
-                        style="background-image: url('carousel%20slider/PXL_20260308_090449694.RAW-01.jpg');"></div>
+                        style="background-image: url('carousel%20slider/PXL_20260308_090449694.RAW-01.jpg');">
+                        <div class="premium-glow"></div>
+                    </div>
                 </div>
-                <!-- Slide 3 -->
+
+                <!-- Slide 3: Photo (Hanumanji Idol - Image 1) -->
                 <div class="carousel-slide"
                     style="flex: 0 0 33.3333%; background-image: url('carousel%20slider/DS_18097.JPG');">
                     <div class="slide-overlay"></div>
+                    <div class="gold-overlay"></div>
+                    <div class="premium-glow"></div>
                     <div class="slide-content">
-                        <h1>JAI HANUMANJI</h1>
-                        <p>Experience the divine blessings of Shree Kantheriya Hanumanji Maharaj.</p>
-                        <a href="about.html" class="hero-btn-orange">Our History</a>
+                        <h1 style="color: #ffffff; text-shadow: 0 5px 25px rgba(0,0,0,0.5);">JAI HANUMANJI</h1>
+                        <p>Experience the golden aura and divine presence of Shree Kantheriya Hanumanji Maharaj.</p>
+                        <a href="about.html" class="hero-btn-orange">Learn More</a>
                     </div>
                 </div>
             </div>
