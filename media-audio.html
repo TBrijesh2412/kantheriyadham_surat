@@ -202,9 +202,16 @@
         const files = await fetchFolder(id);
         if (!files.length) { area.innerHTML = `<p style="color:#aaa;text-align:center;padding:4rem;">No audio found here.</p>`; return; }
 
+        const isAudio = f => {
+            if (f.mimeType.startsWith('audio/')) return true;
+            if (f.mimeType.startsWith('video/') && (f.mimeType.includes('mpeg') || f.mimeType.includes('mp4'))) return true;
+            if (f.name.match(/\.(mp3|ogg|wav|m4a|aac|flac|opus|mpeg|wma)$/i)) return true;
+            return false;
+        };
+
         const folders = files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
-        const audios  = files.filter(f => f.mimeType.startsWith('audio/'));
-        const others  = files.filter(f => !f.mimeType.startsWith('audio/') && f.mimeType !== 'application/vnd.google-apps.folder');
+        const audios  = files.filter(isAudio);
+        const others  = files.filter(f => !isAudio(f) && f.mimeType !== 'application/vnd.google-apps.folder');
 
         currentAudios = audios;
         displayedCount = 0;
