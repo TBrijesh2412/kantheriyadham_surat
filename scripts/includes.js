@@ -99,27 +99,40 @@
     </style>
     `;
     
-    // Inject loader
-    const container = document.createElement('div');
-    container.id = 'kh-loader-container';
-    container.innerHTML = loaderHTML;
-    
-    // Inject as early as possible
-    if (document.body) {
-        document.body.prepend(container);
-    } else {
-        document.documentElement.appendChild(container);
+    // Inject loader as early as possible — before anything else renders
+    function injectLoader() {
+        const container = document.createElement('div');
+        container.id = 'kh-loader-container';
+        container.innerHTML = loaderHTML;
+
+        if (document.body) {
+            document.body.prepend(container);
+        } else {
+            // Body not ready yet — wait for it
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.prepend(container);
+            });
+        }
     }
 
+    injectLoader();
+
+    // Reveal body + hide loader when page fully loads
     window.addEventListener('load', () => {
-        const loader = document.getElementById('kh-site-loader');
-        if (loader) {
-            loader.classList.add('loaded');
-            setTimeout(() => {
-                const c = document.getElementById('kh-loader-container');
-                if (c) c.remove();
-            }, 1100);
-        }
+        // Show body
+        document.body.style.opacity = '1';
+
+        // Hide loader with a slight delay for smooth UX
+        setTimeout(() => {
+            const loader = document.getElementById('kh-site-loader');
+            if (loader) {
+                loader.classList.add('loaded');
+                setTimeout(() => {
+                    const c = document.getElementById('kh-loader-container');
+                    if (c) c.remove();
+                }, 1100);
+            }
+        }, 300);
     });
 })();
 
@@ -446,10 +459,10 @@
         document.body.classList.add('page-loaded');
     }
 
-    // Smooth page reveal on load
-    window.addEventListener('load', function() {
+    // Safety fallback: if load event never fires (slow JS etc), reveal body after 6s
+    setTimeout(function() {
         document.body.style.opacity = '1';
-    });
+    }, 6000);
 
     // Handle various ready states (Prevents missing navbar if DOM is already ready)
     if (document.readyState === 'loading') {
