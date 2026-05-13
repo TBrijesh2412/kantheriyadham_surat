@@ -422,105 +422,67 @@ a:hover {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: 4px;
   width: 0%;
-  background: linear-gradient(90deg, #f57c00, #8B1914, #f57c00);
+  background: linear-gradient(90deg, #D48B01, #f57c00, #8B1914);
   background-size: 200% 100%;
-  z-index: 10001;
-  transition: width 0.1s linear;
-}
-
-/* ── Global Keyframes ── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.88);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -400px 0;
-  }
-
-  100% {
-    background-position: 400px 0;
-  }
-}
-
-@keyframes floatUp {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes rotateSlow {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  z-index: 100000;
+  transition: width 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(212, 139, 1, 0.5);
 }
 
 /* ── Scroll Reveal Base Classes ── */
 .sr {
   opacity: 0;
-  transform: translateY(45px);
-  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
 
 .sr.sr-left {
-  transform: translateX(-50px);
+  transform: translateX(-60px);
 }
 
 .sr.sr-right {
-  transform: translateX(50px);
+  transform: translateX(60px);
 }
 
 .sr.sr-scale {
-  transform: scale(0.85) translateY(20px);
+  transform: scale(0.9) translateY(30px);
+}
+
+.sr.sr-zoom {
+  transform: scale(1.15);
+}
+
+.sr.sr-blur {
+  filter: blur(10px);
+  transform: translateY(20px);
+}
+
+.sr.sr-up {
+  transform: translateY(60px);
+}
+
+.sr.sr-down {
+  transform: translateY(-60px);
 }
 
 .sr.is-visible {
   opacity: 1;
   transform: none;
+  filter: blur(0);
+}
+
+/* Parallax Utility */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-el {
+  will-change: transform;
+  transition: transform 0.1s linear;
 }
 
 /* Stagger Helpers */

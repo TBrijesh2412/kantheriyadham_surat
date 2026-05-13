@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <div id="scroll-progress"></div>
 
     <!-- ===================== HEADER ===================== -->
     <header class="two-tier-header">
@@ -200,31 +201,64 @@
         </div>
     </div>
 
-    <!-- ===================== HANUMAN CHALISA SECTION ===================== -->
-    <div class="page-section" style="padding-top: 0;">
-        <div class="premium-chalisa-banner sr sr-scale" onclick="openChalisaModal()">
-            <!-- <div class="banner-bg" style="background-image: url('carousel slider/DS_18097.JPG');"></div> -->
-            <div class="banner-overlay"></div>
-            
-            <div class="banner-content-wrap">
-                <div class="banner-text-area">
-                    <div class="live-badge-small"><i data-lucide="headphones"></i> Shree Hanuman Chalisa</div>
-                    <h2 style="color: #fff;">Shree Hanuman Chalisa</h2>
-                </div>
-                
-                <div class="banner-play-area">  
-                    <div class="pulse-ring"></div>
-                    <button class="premium-play-btn">
-                        <i data-lucide="play" style="margin-left: 4px; width: 32px; height: 32px;"></i>
-                    </button>
-                    <span class="play-text">Click to Play</span>
-                </div>
+    <!-- ===================== DIVINE MARQUEE (AUTO SCROLLER) ===================== -->
+    <div class="marquee-section sr sr-up">
+        <div class="marquee-container">
+            <!-- First Set -->
+            <div class="marquee-item">
+                <img src="carousel%20slider/DS_18097.JPG" alt="Hanumanji">
+                <div class="marquee-overlay">Jai Hanumanji</div>
+            </div>
+            <div class="marquee-item">
+                <img src="Updated_Img/IMG_0341.JPG" alt="Hanumanji">
+                <div class="marquee-overlay">Divine Presence</div>
+            </div>
+            <div class="marquee-item">
+                <img src="Updated_Img/TJS00522.JPG" alt="Temple">
+                <div class="marquee-overlay">Shree Kantheriyadham</div>
+            </div>
+            <div class="marquee-item">
+                <img src="images/1.jpeg" alt="Live Katha">
+                <div class="marquee-overlay">Spiritual Discourses</div>
+            </div>
+            <div class="marquee-item">
+                <img src="images/2.jpg" alt="Daily Darshan">
+                <div class="marquee-overlay">Daily Blessings</div>
+            </div>
+            <div class="marquee-item">
+                <img src="carousel%20slider/Caros1.JPG" alt="Temple View">
+                <div class="marquee-overlay">Peaceful Vibe</div>
+            </div>
+            <!-- Duplicated for seamless loop -->
+            <div class="marquee-item">
+                <img src="carousel%20slider/DS_18097.JPG" alt="Hanumanji">
+                <div class="marquee-overlay">Jai Hanumanji</div>
+            </div>
+            <div class="marquee-item">
+                <img src="Updated_Img/IMG_0341.JPG" alt="Hanumanji">
+                <div class="marquee-overlay">Divine Presence</div>
+            </div>
+            <div class="marquee-item">
+                <img src="Updated_Img/TJS00522.JPG" alt="Temple">
+                <div class="marquee-overlay">Shree Kantheriyadham</div>
+            </div>
+            <div class="marquee-item">
+                <img src="images/1.jpeg" alt="Live Katha">
+                <div class="marquee-overlay">Spiritual Discourses</div>
+            </div>
+            <div class="marquee-item">
+                <img src="images/2.jpg" alt="Daily Darshan">
+                <div class="marquee-overlay">Daily Blessings</div>
+            </div>
+            <div class="marquee-item">
+                <img src="carousel%20slider/Caros1.JPG" alt="Temple View">
+                <div class="marquee-overlay">Peaceful Vibe</div>
             </div>
         </div>
     </div>
 
-    <!-- ===================== ANNOUNCEMENT SECTION ===================== -->
-    <div id="announcement-root" class="page-section" style="display: none; padding-top: 0;">
+        <!-- ===================== ANNOUNCEMENT SECTION ===================== -->
+    <div id="announcement-root" class="page-section" style="display: none; padding-top: 2rem;">
         <div class="announcement-container sr sr-scale">
             <div class="ann-header">
                 <div class="ann-ticker-wrap">
@@ -242,10 +276,13 @@
         </div>
     </div>
 
+    <!-- ===================== HANUMAN CHALISA SECTION ===================== -->
+
+
         <!-- ===================== ABOUT SPLIT SECTION ===================== -->
     <div class="page-section">
-        <div class="about-split sr sr-scale">
-            <div class="about-split-left sr sr-left">
+        <div class="about-split sr sr-flip">
+            <div class="about-split-left sr sr-left" data-delay="200">
                 <h2>શ્રી કંથેરીયા<br>હનુમાનજી મહારાજ</h2>
                 <p>શ્રી કંથેરીયા હનુમાનજી મહારાજની શરણમાં આવેલો કોઈપણ ભક્ત ક્યારેય ખાલી હાથે પાછો ગયો નથી. તેમની દરેક
                     મનોકામના હંમેશા પૂર્ણ થાય છે. દાદાના પવિત્ર દર્શન, ભક્તિ અને સેવાથી અસંખ્ય વ્યક્તિઓ અને પરિવારોને
@@ -253,7 +290,7 @@
                 <a href="about.html" class="hero-btn-orange" style="width: fit-content;">Read Our History</a>
                 <div class="hero-om-watermark" style="font-size: 20rem !important; left: 40% !important;">🕉</div>
             </div>
-            <div class="about-split-right sr sr-right">
+            <div class="about-split-right">
                 <img src="Updated_Img/TJS00522.JPG" alt="Shree Kantheriyadham" />
             </div>
         </div>
@@ -269,7 +306,7 @@
         </div>
         <div class="devote-grid">
             <!-- Card 1 -->
-            <div class="devote-card sr sr-up">
+            <div class="devote-card sr sr-blur" data-delay="100">
                 <div class="card-number">1.</div>
                 <div class="card-inner">
                     <div class="card-image-wrap">
@@ -285,7 +322,7 @@
                 </div>
             </div>
             <!-- Card 2 -->
-            <div class="devote-card sr sr-up" style="transition-delay: 0.1s;">
+            <div class="devote-card sr sr-blur" data-delay="200">
                 <div class="card-number">2.</div>
                 <div class="card-inner">
                     <div class="card-image-wrap">
@@ -301,7 +338,7 @@
                 </div>
             </div>
             <!-- Card 3 -->
-            <div class="devote-card sr sr-up" style="transition-delay: 0.2s;">
+            <div class="devote-card sr sr-blur" data-delay="300">
                 <div class="card-number">3.</div>
                 <div class="card-inner">
                     <div class="card-image-wrap">
@@ -317,7 +354,7 @@
                 </div>
             </div>
             <!-- Card 4 -->
-            <div class="devote-card sr sr-up" style="transition-delay: 0.3s;">
+            <div class="devote-card sr sr-blur" data-delay="400">
                 <div class="card-number">4.</div>
                 <div class="card-inner">
                     <div class="card-image-wrap">
@@ -330,6 +367,29 @@
                             <i data-lucide="book-open"></i> Read Our History
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== PARALLAX WINDOW ===================== -->
+    <div class="parallax-window sr" style="background-image: url('Updated_Img/IMG_0341.JPG');">
+        <div class="premium-chalisa-banner sr sr-zoom" onclick="openChalisaModal()">
+            <!-- <div class="banner-bg" style="background-image: url('carousel slider/DS_18097.JPG');"></div> -->
+            <div class="banner-overlay"></div>
+            
+            <div class="banner-content-wrap">
+                <div class="banner-text-area">
+                    <div class="live-badge-small"><i data-lucide="headphones"></i> Shree Hanuman Chalisa</div>
+                    <h2 style="color: #fff;">Shree Hanuman Chalisa</h2>
+                </div>
+                
+                <div class="banner-play-area">  
+                    <div class="pulse-ring"></div>
+                    <button class="premium-play-btn">
+                        <i data-lucide="play" style="margin-left: 4px; width: 32px; height: 32px;"></i>
+                    </button>
+                    <span class="play-text">Click to Play</span>
                 </div>
             </div>
         </div>
@@ -450,13 +510,37 @@
             <a href="photo-gallery.html" style="color:#f57c00; font-weight:600; text-decoration: none;">View All →</a>
         </div>
         <p style="color: #666; margin-top: -1.5rem; margin-bottom: 2rem; font-size: 1rem;" class="sr sr-up">Explore divine moments from our recent Mahotsavs and events</p>
-        <div class="gallery-preview-grid sr sr-up">
-            <div class="gp-item" style="background-image: url('carousel slider/DS_18097.JPG');" onclick="window.location.href='photo-gallery.html'"></div>
-            <div class="gp-item" style="background-image: url('Updated_Img/TJS00522.JPG');" onclick="window.location.href='photo-gallery.html'"></div>
-            <div class="gp-item" style="background-image: url('images/1.jpeg');" onclick="window.location.href='photo-gallery.html'"></div>
-            <div class="gp-item" style="background-image: url('carousel slider/PXL_20260308_090449694.RAW-01.jpg');" onclick="window.location.href='photo-gallery.html'"></div>
+        
+        <div class="bento-gallery sr sr-up">
+            <div class="bento-item large" onclick="window.location.href='photo-gallery.html'">
+                <img src="carousel%20slider/DS_18097.JPG" alt="Dham View">
+                <div class="bento-content">
+                    <h3>Golden Darshan</h3>
+                    <p>Capturing the majestic beauty of the Dham.</p>
+                </div>
+            </div>
+            <div class="bento-item" onclick="window.location.href='photo-gallery.html'">
+                <img src="Updated_Img/IMG_0341.JPG" alt="Idol">
+                <div class="bento-content">
+                    <h3>Divine Idol</h3>
+                </div>
+            </div>
+            <div class="bento-item tall" onclick="window.location.href='photo-gallery.html'">
+                <img src="Updated_Img/TJS00522.JPG" alt="Temple">
+                <div class="bento-content">
+                    <h3>Sacred Architecture</h3>
+                    <p>The spiritual heart of Surat.</p>
+                </div>
+            </div>
+            <div class="bento-item" onclick="window.location.href='photo-gallery.html'">
+                <img src="images/1.jpeg" alt="Event">
+                <div class="bento-content">
+                    <h3>Mahotsav</h3>
+                </div>
+            </div>
         </div>
-        <div style="text-align: center; margin-top: 3rem;" class="sr sr-up">
+
+        <div style="text-align: center; margin-top: 1rem;" class="sr sr-up">
             <a href="photo-gallery.html" class="hero-btn-orange" style="display: inline-block;">View Full Gallery</a>
         </div>
     </div>

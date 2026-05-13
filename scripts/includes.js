@@ -372,22 +372,65 @@
     `;
     document.head.appendChild(styleSheet);
 
+    /* ── 7. Smooth Scroll Engine ── */
+    function initSmoothScroll() {
+        // Only apply on desktop for performance
+        if (window.innerWidth < 1024) return;
+        
+        const html = document.documentElement;
+        html.style.scrollBehavior = 'smooth';
+    }
+
+    /* ── 8. Scroll Progress Logic ── */
+    function initScrollProgress() {
+        const progress = document.getElementById('scroll-progress');
+        if (!progress) return;
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progress.style.width = scrolled + "%";
+        }, { passive: true });
+    }
+
+    /* ── 9. Parallax Controller ── */
+    function initParallaxEffect() {
+        const parallaxEls = document.querySelectorAll('.parallax-el');
+        if (parallaxEls.length === 0) return;
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            Array.prototype.forEach.call(parallaxEls, function(el) {
+                const speed = el.dataset.speed || 0.1;
+                const offset = scrolled * speed;
+                el.style.transform = `translateY(${offset}px)`;
+            });
+        }, { passive: true });
+    }
+
     /* ── 5. FINAL EXECUTION (Single source of truth) ── */
     function runFinalInit() {
-        // ... (existing observer logic) ...
         initBackgroundParticles();
+        initSmoothScroll();
+        initScrollProgress();
+        initParallaxEffect();
         
-        // --- 5a. Smart Revelation Engine (IntersectionObserver) ---
+        // --- 5a. Premium Revelation Engine (IntersectionObserver) ---
         var observerOptions = {
             root: null,
-            rootMargin: '0px 0px -50px 0px',
+            rootMargin: '0px 0px -10% 0px',
             threshold: 0.1
         };
 
         var revealCallback = function(entries, observer) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+                    // Check for stagger delay
+                    const delay = entry.target.dataset.delay || 0;
+                    setTimeout(() => {
+                        entry.target.classList.add('is-visible');
+                    }, delay);
                     observer.unobserve(entry.target);
                 }
             });
@@ -403,13 +446,6 @@
         };
 
         window.refreshScrollReveal();
-
-        setTimeout(function() {
-            var allSrs = document.querySelectorAll('.sr');
-            Array.prototype.forEach.call(allSrs, function(el) {
-                el.classList.add('is-visible');
-            });
-        }, 3000);
 
         // --- 5b. Dynamic Includes ---
         loadInclude('social-connect-root', 'social-connect.html');
