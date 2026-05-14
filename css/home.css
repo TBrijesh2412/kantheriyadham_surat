@@ -1594,14 +1594,33 @@
             .banner-content-wrap {
                 flex-direction: column;
                 text-align: center;
-                padding: 3rem 2rem;
-                gap: 2.5rem;
+                padding: 2.5rem 1.5rem; /* Reduced padding */
+                gap: 1.5rem; /* Reduced gap */
             }
-            .banner-play-area { padding-right: 0; }
+            .banner-play-area { 
+                padding-right: 0;
+                transform: scale(0.9); /* Slightly smaller play button on small mobile */
+            }
             .premium-chalisa-banner .banner-overlay {
-                background: linear-gradient(180deg, rgba(139, 25, 20, 0.9) 0%, rgba(216, 67, 21, 0.8) 100%);
+                background: linear-gradient(180deg, rgba(139, 25, 20, 0.95) 0%, rgba(216, 67, 21, 0.85) 100%);
             }
-            .banner-text-area h2 { font-size: 2.3rem; }
+            .banner-text-area h2 { 
+                font-size: 1.8rem; /* Scaled down for mobile */
+                margin-bottom: 0.5rem;
+            }
+            .banner-text-area p {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+            .premium-chalisa-banner {
+                min-height: auto;
+                margin: 0 0 2rem 0;
+            }
+            /* Avoid overlap with Katha Schedule tab if on right */
+            .premium-play-btn {
+                width: 70px;
+                height: 70px;
+            }
         }
 
         /* Chalisa Modal Glassmorphism */
@@ -2012,5 +2031,27 @@
             }
             .parallax-text {
                 font-size: 2rem;
+            }
+            /* Gallery Content always visible on mobile */
+            .bento-content {
+                opacity: 1;
+                transform: translateY(0);
+                padding: 1.2rem;
+                background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+            }
+            .bento-content h3 {
+                font-size: 1.1rem;
+            }
+            .bento-content p {
+                font-size: 0.85rem;
+                display: none; /* Hide description on mobile to save space */
+            }
+            /* Katha Float Button Adjustment */
+            .katha-float-btn {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            .katha-float-content {
+                gap: 8px;
             }
         }
