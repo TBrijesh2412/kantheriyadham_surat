@@ -1699,12 +1699,17 @@ a:hover {
     border-radius: 2px;
 }
 
+/* ========================================= */
+/* PREMIUM SOCIAL CONNECT SECTION            */
+/* ========================================= */
+
 .social-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 1300px;
+    gap: 1.5rem;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .social-card {
@@ -1712,161 +1717,202 @@ a:hover {
     color: inherit;
     display: block;
     position: relative;
-    border-radius: 24px;
+    border-radius: 28px;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .social-card-inner {
-    background: #ffffff;
-    border: 1px solid #f0e8dd;
-    padding: 2.5rem 2rem;
+    padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     height: 100%;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+    transition: all 0.5s ease;
+}
+
+.social-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    transform: translate(-50%, -50%) scale(0);
+    background: radial-gradient(circle, var(--social-color, #8B1914) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .social-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    background: #ffffff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 3;
 }
 
 .social-icon svg {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
     fill: var(--text-main);
     transition: all 0.4s ease;
 }
 
+.social-info {
+    position: relative;
+    z-index: 3;
+}
+
 .social-info h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 800;
     margin-bottom: 0.5rem;
     color: var(--text-main);
+    transition: color 0.4s ease;
 }
 
 .social-info p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    line-height: 1.4;
+    line-height: 1.5;
+    transition: color 0.4s ease;
 }
 
 .social-arrow {
     margin-top: 1.5rem;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    color: var(--social-color, var(--primary));
+    transform: translateY(10px);
     opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.4s ease;
-    color: white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    font-weight: bold;
 }
 
-/* Brand Colors & Hover Effects */
+/* --- Brand Themes --- */
+.social-card.fb { --social-color: #1877F2; }
+.social-card.ig { --social-color: #E4405F; }
+.social-card.yt { --social-color: #FF0000; }
+.social-card.tg { --social-color: #0088cc; }
+
+/* --- Hover States --- */
 .social-card:hover {
-    transform: translateY(-12px) scale(1.02);
+    transform: translateY(-15px);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--social-color);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
 }
 
-.social-card:hover .social-card-inner {
-    background: #ffffff;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    border-color: #f0e8dd;
+.social-card:hover .social-glow {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.12;
+}
+
+.social-card:hover .social-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--social-color);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.social-card:hover .social-icon svg {
+    fill: white;
+}
+
+.social-card:hover .social-info h3 {
+    color: var(--social-color);
 }
 
 .social-card:hover .social-arrow {
+    transform: translateY(0);
     opacity: 1;
-    transform: translateX(0);
 }
 
-/* Facebook Hover */
-.social-card.fb:hover .social-icon {
-    background: #1877F2;
-    box-shadow: 0 10px 25px rgba(24, 119, 242, 0.4);
-}
-.social-card.fb:hover .social-icon svg { fill: white; }
-.social-card.fb .social-arrow { color: #1877F2; }
-
-/* Instagram Hover */
+/* Special Case: Instagram Gradient */
 .social-card.ig:hover .social-icon {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    box-shadow: 0 10px 25px rgba(220, 39, 67, 0.4);
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
-.social-card.ig:hover .social-icon svg { fill: white; }
-.social-card.ig .social-arrow { color: #dc2743; }
 
-/* YouTube Hover */
-.social-card.yt:hover .social-icon {
-    background: #FF0000;
-    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
-}
-.social-card.yt:hover .social-icon svg { fill: white; }
-.social-card.yt .social-arrow { color: #FF0000; }
-
-/* Telegram Hover */
-.social-card.tg:hover .social-icon {
-    background: #0088cc;
-    box-shadow: 0 10px 25px rgba(0, 136, 204, 0.4);
-}
-.social-card.tg:hover .social-icon svg { fill: white; }
-.social-card.tg .social-arrow { color: #0088cc; }
-
-/* Responsive Grid */
-@media (max-width: 1100px) {
+/* Responsive Styles */
+@media (max-width: 1200px) {
     .social-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-    .social-connect-header h2 { font-size: 2.2rem; }
 }
 
-@media (max-width: 600px) {
-    .social-connect-section { padding: 2.5rem 1rem; }
-    .social-connect-header { margin-bottom: 1.5rem; }
-    .social-connect-header h2 { font-size: 1.4rem !important; }
-
+@media (max-width: 650px) {
     .social-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
+        gap: 0.85rem;
+        padding: 0 0.5rem;
+    }
+
+    .social-card {
+        border-radius: 20px;
+        background: white; /* More solid on mobile for readability */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
 
     .social-card-inner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 1rem 0.75rem;
-        gap: 0;
-        border-radius: 16px;
+        padding: 1.5rem 0.75rem;
     }
 
     .social-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        margin-bottom: 0.6rem;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        margin-bottom: 0.8rem;
+        background: var(--social-color); /* Brand color by default on mobile */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .social-icon svg {
-        width: 22px;
-        height: 22px;
+        width: 26px;
+        height: 26px;
+        fill: white; /* White icon by default on mobile */
     }
 
     .social-info h3 {
-        font-size: 0.95rem;
-        margin-bottom: 0.2rem;
+        font-size: 1rem;
+        color: var(--social-color); /* Title in brand color on mobile */
     }
 
     .social-info p {
         font-size: 0.75rem;
-        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        opacity: 0.8;
     }
 
-    .social-arrow { display: none; }
+    .social-arrow {
+        font-size: 0.9rem;
+        margin-top: 0.8rem;
+        opacity: 1; /* Always visible on mobile */
+        transform: translateY(0);
+        display: block;
+    }
+
+    /* Instagram specifically needs the gradient even on mobile */
+    .social-card.ig .social-icon {
+        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
 }
+
 .sr.is-visible {
   opacity: 1;
   transform: translate(0) scale(1);

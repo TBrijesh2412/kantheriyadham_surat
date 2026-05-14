@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Katha</title>
+    <title>Live Katha & Darshan</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta name="description" content="Watch Shree Kantheriyadham Live Katha and Live Darshan directly on our website, powered by YouTube Live.">
     
@@ -178,57 +178,46 @@
         
         async function checkLiveStream() {
             try {
-                // Fetch the current live video from the channel using YouTube Data API
-                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`;
+                // 1. First, check for an ACTIVE LIVE stream
+                const liveUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`;
+                const liveResponse = await fetch(liveUrl);
+                const liveData = await liveResponse.json();
                 
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                if (data.items && data.items.length > 0) {
-                    // LIVE STREAM FOUND
-                    const videoId = data.items[0].id.videoId;
-                    const liveUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&iv_load_policy=3&fs=1`;
+                if (liveData.items && liveData.items.length > 0) {
+                    const videoId = liveData.items[0].id.videoId;
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&iv_load_policy=3&fs=1`;
                     
-                    if (iframe.src !== liveUrl) {
-                        iframe.src = liveUrl;
-                    }
+                    if (iframe.src !== embedUrl) iframe.src = embedUrl;
                     if (liveBadge) {
                         liveBadge.style.display = 'inline-flex';
-                        liveBadge.innerHTML = '<span class="dot"></span> LIVE ON YOUTUBE';
+                        liveBadge.innerHTML = '<span class="dot"></span> LIVE NOW';
                         liveBadge.style.background = '#d32f2f';
                         liveBadge.style.animation = 'pulse-live 2s infinite';
                     }
                 } else {
-                    // NO LIVE STREAM CURRENTLY -> Fetch last completed live video
-                    try {
-                        const pastUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=completed&order=date&maxResults=1&key=${API_KEY}`;
-                        const pastResponse = await fetch(pastUrl);
-                        const pastData = await pastResponse.json();
+                    // 2. NO LIVE STREAM -> Fetch the ABSOLUTE LATEST video
+                    const latestUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=1&key=${API_KEY}`;
+                    const latestResponse = await fetch(latestUrl);
+                    const latestData = await latestResponse.json();
 
-                        if (pastData.items && pastData.items.length > 0) {
-                            const pastVideoId = pastData.items[0].id.videoId;
-                            const fallbackUrl = `https://www.youtube.com/embed/${pastVideoId}?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0&iv_load_policy=3&fs=1`;
-                            
-                            if (!iframe.src.includes(pastVideoId)) {
-                                iframe.src = fallbackUrl;
-                            }
-                            if (liveBadge) {
-                                liveBadge.style.display = 'inline-flex';
-                                liveBadge.innerHTML = 'PREVIOUS LIVE KATHA';
-                                liveBadge.style.background = '#e65100'; // Orange instead of red
-                                liveBadge.style.animation = 'none';
-                                liveBadge.style.boxShadow = 'none';
-                            }
-                        } else {
-                            if (liveBadge) liveBadge.style.display = 'none';
+                    if (latestData.items && latestData.items.length > 0) {
+                        const videoId = latestData.items[0].id.videoId;
+                        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0&iv_load_policy=3&fs=1`;
+                        
+                        if (!iframe.src.includes(videoId)) iframe.src = embedUrl;
+                        if (liveBadge) {
+                            liveBadge.style.display = 'inline-flex';
+                            liveBadge.innerHTML = 'PREVIOUS KATHA (REPLAY)';
+                            liveBadge.style.background = '#e65100';
+                            liveBadge.style.animation = 'none';
+                            liveBadge.style.boxShadow = 'none';
                         }
-                    } catch (err) {
-                        console.error('Error fetching past live stream:', err);
-                        if (liveBadge) liveBadge.style.display = 'none';
+                    } else if (liveBadge) {
+                        liveBadge.style.display = 'none';
                     }
                 }
             } catch (error) {
-                console.error('Error fetching live stream:', error);
+                console.error('Error in checkLiveStream:', error);
             }
         }
 
