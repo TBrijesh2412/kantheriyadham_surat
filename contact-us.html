@@ -1,54 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
+
     <link href="css/modern.css" rel="stylesheet" type="text/css" />
-    
+
     <script src="scripts/jquery-1.2.6.min.js" type="text/javascript"></script>
     <script type="text/JavaScript" src="scripts/slimbox2.js"></script>
     <link rel="stylesheet" href="scripts/slimbox2.css" type="text/css" media="screen" />
-    
+
     <style>
-        .page-hero { background:linear-gradient(135deg,#8B1914,#e65100); padding:3rem 2.5rem 2rem; color:white; }
-        .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
-        .page-hero p { color:rgba(255,255,255,0.85); margin:0.5rem 0 0; font-size:1.05rem; }    
+        .page-hero {
+            background: linear-gradient(135deg, #8B1914, #e65100);
+            padding: 3rem 2.5rem 2rem;
+            color: white;
+        }
+
+        .page-hero h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0.5rem 0 0;
+            font-size: 1.05rem;
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             margin-top: 2rem;
         }
+
         @media (max-width: 768px) {
             .contact-grid {
                 grid-template-columns: 1fr;
             }
         }
-        .contact-info, .contact-form {
+
+        .contact-info,
+        .contact-form {
             background: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
             border-top: 4px solid var(--primary);
         }
+
         .form-group {
             margin-bottom: 1.25rem;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
-        .form-group input, .form-group textarea {
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-family: inherit;
         }
+
         .btn {
             background: var(--primary);
             color: white;
@@ -59,99 +83,163 @@
             font-weight: 600;
             transition: var(--transition);
         }
+
         .btn:hover {
             background: var(--secondary);
         }
+
         .btn-outline {
             background: transparent;
             color: var(--primary);
             border: 1px solid var(--primary);
         }
+
         .btn-outline:hover {
             background: var(--primary-light);
             color: white;
         }
+
+        /* Mobile specific adjustments for buttons */
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 500px) {
+            .form-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .content-area {
+                padding: 0 0.5rem;
+            }
+
+            .app-container {
+                padding: 0 10px;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+        }
     </style>
 
-    <script language="javascript">
-    function fnopenPage() {
-        var to = 'ivasu@ymail.com';
-        var from = 'ivasunew@gmail.com';
-        var pass = 'ktmeoukzd';
-        var subject = document.getElementById('subject').value;
-        var msg = document.getElementById('msg').value;
-        var provider = 'gmail';
-        
-        var name = document.getElementById('name').value;
-        var id = document.getElementById('id').value;
+    <script>
+        function sendWhatsApp() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const msg = document.getElementById('msg').value;
 
-        var url = 'http://mylaxmii.com/emails/sms.aspx?to=' + to + '&from=' + from + '&pass=' + pass + '&subject=' + subject + '&msg=' + msg + '&provider=' + provider + '';
-        window.open(url, '_blank');
-    }
+            if (!name || !msg) {
+                alert("Please fill in your name and message.");
+                return;
+            }
+
+            const text = `*New Website Inquiry*%0A--------------------------%0A*Name:* ${name}%0A*Email:* ${email}%0A*Subject:* ${subject}%0A*Message:* ${msg}`;
+            const url = `https://wa.me/919904190050?text=${text}`;
+            window.open(url, '_blank');
+        }
+
+        function sendEmail() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const msg = document.getElementById('msg').value;
+
+            if (!name || !msg) {
+                alert("Please fill in your name and message.");
+                return;
+            }
+
+            const mailtoLink = `mailto:kantheriyalive@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + msg)}`;
+            window.location.href = mailtoLink;
+        }
     </script>
 </head>
+
 <body>
 
-<div id="site-nav"></div>
-<div class="page-hero animate-fade-in">
-    <h1>📞 Contact Us</h1>
-    <p>Get in touch with Shree Kantheriya Hanumanji Dham</p>
-</div>
+    <div id="site-nav"></div>
+    <div class="page-hero animate-fade-in">
+        <h1>📞 Contact Us</h1>
+        <p>Get in touch with Shree Kantheriya Hanumanji Dham</p>
+    </div>
 
-<div class="app-container">
-    <main class="content-area">
-            <h2>Contact Us</h2>
-            <p style="color: var(--text-muted);">Get in touch with Shree Kantheriya Hanumanji Dham</p>
-            
+    <div class="app-container">
+        <main class="content-area">
             <div class="contact-grid">
-                
+
                 <!-- Info Section -->
                 <div class="contact-info">
                     <h3 style="color: var(--primary);">Address Details</h3>
                     <p style="margin-bottom: 2rem;"><strong>Shree Kantheriya Hanumanji Dham</strong></p>
-                    
+
                     <p style="margin-bottom: 1rem;">
-                        <strong>Address:</strong><br/>
-                        Causeway Road, Singanpore village,<br/>
+                        <strong>Address:</strong><br />
+                        Causeway Road, Singanpore village,<br />
                         Surat - 395 004, Gujarat
                     </p>
 
                     <p style="margin-bottom: 1rem;">
-                        <strong>Contact No:</strong><br/>
-                        +91 99041 90050<br/>
-                         +91 97262 13516
+                        <strong>Contact No:</strong><br />
+                        +91 99041 90050<br />
+                        +91 97262 13516
                     </p>
 
                     <p>
-                        <strong>E-mail:</strong><br/>
-                        <a href="mailto:kantheriyadhamsurat@gmail.com">kantheriyadhamsurat@gmail.com</a>
+                        <strong>E-mail:</strong><br />
+                        <a href="mailto:kantheriyalive@gmail.com">kantheriyalive@gmail.com</a>
                     </p>
                 </div>
 
                 <!-- Form Section -->
                 <div class="contact-form">
                     <h3 style="color: var(--primary);">Your Suggestion</h3>
-                    <form onsubmit="event.preventDefault(); fnopenPage();">
+                    <form onsubmit="event.preventDefault();">
                         <div class="form-group">
                             <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required />
+                            <input type="text" id="name" placeholder="Enter your name" required />
                         </div>
                         <div class="form-group">
-                            <label for="id">E-Mail ID</label>
-                            <input type="email" id="id" name="id" required />
+                            <label for="email">E-Mail ID</label>
+                            <input type="email" id="email" placeholder="Enter your email" required />
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required />
+                            <input type="text" id="subject" placeholder="What is this about?" required />
                         </div>
                         <div class="form-group">
                             <label for="msg">Message</label>
-                            <textarea id="msg" name="msg" rows="5" required></textarea>
+                            <textarea id="msg" rows="5" placeholder="Write your suggestion or message here..."
+                                required></textarea>
                         </div>
-                        <div style="display: flex; gap: 1rem;">
-                            <button type="submit" class="btn">Send Message</button>
-                            <button type="reset" class="btn btn-outline">Clear</button>
+
+                        <div class="form-actions">
+                            <button type="button" onclick="sendWhatsApp()" class="btn"
+                                style="background:#25d366; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0.9rem; font-size: 1rem;">
+                                <svg style="width:22px; height:22px; fill:white;" viewBox="0 0 24 24">
+                                    <path
+                                        d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.891-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.892-11.891 11.892-1.992 0-3.951-.499-5.69-1.447l-6.303 1.665zm6.305-3.635c1.558.924 3.15 1.395 4.733 1.395 5.176 0 9.39-4.215 9.39-9.39 0-2.504-.975-4.857-2.746-6.627-1.771-1.772-4.125-2.748-6.644-2.748-5.176 0-9.39 4.215-9.39 9.39 0 1.797.516 3.486 1.491 4.893l-.994 3.634 3.66-.947zm11.281-5.055c-.309-.154-1.829-.902-2.107-1.002-.278-.1-.481-.154-.683.154-.202.308-.781 1.002-.958 1.203-.177.202-.35.228-.659.077-.309-.155-1.303-.481-2.482-1.535-.917-.818-1.536-1.829-1.715-2.137-.179-.308-.019-.475.135-.629.139-.138.309-.359.464-.538.154-.179.206-.308.309-.513.103-.205.051-.385-.026-.539-.077-.154-.683-1.643-.935-2.251-.247-.599-.494-.518-.683-.528-.177-.01-.381-.012-.584-.012-.202 0-.531.077-.808.385-.278.307-1.062 1.039-1.062 2.539 0 1.5 1.088 2.949 1.241 3.154.153.205 2.142 3.272 5.19 4.582.724.311 1.29.497 1.73.637.728.231 1.391.198 1.916.12.584-.087 1.829-.747 2.087-1.47.257-.723.257-1.341.179-1.47-.076-.131-.282-.207-.591-.361z" />
+                                </svg>
+                                WhatsApp
+                            </button>
+                            <button type="button" onclick="sendEmail()" class="btn btn-outline"
+                                style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0.9rem; font-size: 1rem;">
+                                <span style="font-size:1.2rem;">📧</span> Email App
+                            </button>
                         </div>
+                        <button type="reset" class="btn btn-outline"
+                            style="width: 100%; color: #666; border-color: #ddd;">
+                            🗑️ Clear All
+                        </button>
                     </form>
                 </div>
 
@@ -161,17 +249,17 @@
 
         <!-- Google Maps Embed — Shri Kantheriya Hanumanji Dham, Surat -->
         <div style="margin-top:2rem; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
-            <iframe 
+            <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3717.8!2d72.8061!3d21.2252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04ea13c2d6501%3A0xde47fc4a14ab11d8!2sShri%20Kantheriya%20Hanumanji%20Dham!5e0!3m2!1sen!2sin!4v1620000000001"
-                width="100%" height="400" style="border:0; display:block;" 
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                width="100%" height="400" style="border:0; display:block;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
-    <!-- Footer -->
+        <!-- Footer -->
 
-</div>
+    </div>
 
-<div id="social-connect-root"></div>
-<div id="site-footer"></div>
-<script src="scripts/includes.js"></script>
+    <div id="social-connect-root"></div>
+    <div id="site-footer"></div>
+    <script src="scripts/includes.js"></script>
 </body>

@@ -805,7 +805,7 @@
             }
 
             .map-info-panel {
-                padding: 3rem 2rem;
+                padding: 1.5rem 1.2rem;
             }
 
             .two-tier-header {
@@ -1006,8 +1006,15 @@
             }
 
             .about-split-left {
-                padding: 2.5rem 1.5rem;
+                padding: 1.5rem 1.2rem;
                 text-align: center;
+            }
+
+            .about-split-left .hero-om-watermark {
+                font-size: 8rem !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
             }
 
             .about-split-left h2 {

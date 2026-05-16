@@ -1665,14 +1665,14 @@ a:hover {
 /* ========================================= */
 
 .social-connect-section {
-    padding: 6rem 2.5rem;
+    padding: 3rem 2.5rem;
     position: relative;
     z-index: 5;
 }
 
 .social-connect-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .social-subtitle {
@@ -1911,6 +1911,10 @@ a:hover {
     .social-card.ig .social-icon {
         background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     }
+
+    .social-connect-section {
+        padding: 2rem 1rem;
+    }
 }
 
 .sr.is-visible {
@@ -1986,6 +1990,18 @@ html {
 .katha-float-btn:hover {
     padding-right: 1.5rem;
     background: linear-gradient(135deg, #D48B01 0%, #8B1914 100%);
+}
+
+@media (max-width: 768px) {
+    .katha-float-btn {
+        top: auto;
+        bottom: 80px; /* Move it down on mobile */
+        padding: 0.8rem 0.6rem;
+        border-radius: 8px 0 0 8px;
+    }
+    .katha-float-content {
+        font-size: 0.75rem;
+    }
 }
 
 .katha-modal {

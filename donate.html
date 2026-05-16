@@ -11,34 +11,45 @@
         .page-hero { background:linear-gradient(135deg,#8B1914,#e65100); padding:3rem 2.5rem 2rem; color:white; }
         .page-hero h1 { color:white; font-size:2.5rem; margin:0; }
         .page-hero p { color:rgba(255,255,255,0.85); margin:0.5rem 0 0; font-size:1.05rem; }
-        .donate-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem; }
-        .donate-card { background:white; border-radius:16px; padding:2.5rem; box-shadow:0 4px 20px rgba(0,0,0,0.06); }
-        .donate-card h3 { color:#8B1914; margin-bottom:1.5rem; font-size:1.3rem; padding-bottom:0.75rem; border-bottom:2px solid #f0e8dd; }
-        .bank-detail { display:flex; flex-direction:column; gap:1rem; }
-        .bank-row { display:flex; gap:1rem; align-items:flex-start; padding:1rem; background:#fdfaf6; border-radius:10px; border-left:4px solid #f57c00; }
-        .bank-row .label { font-weight:700; color:#8B1914; min-width:130px; font-size:0.9rem; }
-        .bank-row .value { color:#333; font-size:0.95rem; }
-        .donate-btn { display:inline-flex; align-items:center; gap:10px; background:#8B1914; color:white; padding:1rem 2.5rem; border-radius:30px; font-weight:700; font-size:1rem; text-decoration:none; transition:all 0.3s; box-shadow:0 4px 20px rgba(139,25,20,0.3); }
-        .donate-btn:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(139,25,20,0.4); }
-        .upi-box { background:#f0f9f0; border:2px solid #4CAF50; border-radius:12px; padding:1.5rem; text-align:center; }
-        .upi-box .upi-id { font-size:1.4rem; font-weight:800; color:#2e7d32; letter-spacing:1px; margin:0.5rem 0; }
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-        .content-area { padding: 2rem 0; }
-        .info-card { background:white; border-radius:16px; padding:2rem 2.5rem; margin-bottom:2rem; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.06); }
+        .content-area { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .payment-image-container { 
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .payment-image-container img { 
+            max-height: 60vh;
+            width: auto; 
+            max-width: 90%;
+            border-radius: 15px; 
+            box-shadow: 0 15px 40px rgba(139, 25, 20, 0.15); 
+            border: 1px solid #f0e8dd; 
+        }
+        .contact-note {
+            background: #fff8f2;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            border: 1px solid #ffe0b2;
+            color: #8B1914;
+            font-weight: 600;
+            font-size: 0.95rem;
+            /* line-height: 1.5; */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
 
         @media(max-width:768px){ 
-            .app-container { padding: 0 0.8rem; }
-            .content-area { padding: 1rem 0; }
-            .info-card { padding: 1.5rem 1rem; }
-            .donate-grid { grid-template-columns:1fr; gap: 1rem; } 
-            .bank-row { flex-direction: column; gap: 0.2rem; padding: 0.8rem 0.6rem; }
-            .bank-row .label { min-width: auto; font-size: 0.8rem; opacity: 0.8; }
-            .bank-row .value { font-size: 0.95rem; overflow-wrap: break-word; }
-            .page-hero { padding: 2rem 1rem; }
+            .page-hero { padding: 1.5rem 1rem; }
             .page-hero h1 { font-size: 1.8rem; }
-            .donate-card { padding: 1rem; }
-            .note-box { flex-direction: column; text-align: center; padding: 1.2rem !important; gap: 0.5rem; }
-            .upi-box .upi-id { font-size: 1.1rem; }
+            .content-area { padding: 1.5rem 0; }
+            .payment-image-container img { max-height: 50vh; }
         }
     </style>
 </head>
@@ -47,68 +58,21 @@
 <div id="site-nav"></div>
 
 <div class="page-hero animate-fade-in">
-    <h1>🙏 Donate</h1>
-    <p>Your contribution supports our Annakshetra, temple activities and community service</p>
+    <h1>🤝 Donate</h1>
+    <p>Support Shree Kantheriya Hanumanji Dham through online donation. Your contribution helps to some social works and other activities.</p>
 </div>
+<br>
 
 <div class="app-container">
     <main class="content-area animate-slide-up delay-100">
-
-        <div class="info-card">
-            <p style="font-size:1.1rem; color:#555; line-height:1.8; max-width:700px; margin:0 auto;">
-                <strong style="color:#8B1914;">Shree Kantheriya Hanumanji Charitable Trust</strong> accepts donations for Annakshetra (free food service), Darshan arrangements, construction, and all temple activities. Every rupee is used for the betterment of the Dham and its devotees.
-            </p>
+        <div class="payment-image-container">
+            <img src="payment/Payment.jpeg" alt="Payment Details">
         </div>
-
-        <div class="donate-grid">
-            <div class="donate-card">
-                <h3>🏦 Bank Transfer Details</h3>
-                <div class="bank-detail">
-                    <div class="bank-row">
-                        <span class="label">Account Name</span>
-                        <span class="value">Shree Kantheriya Hanumanji Charitable Trust, Surat</span>
-                    </div>
-                    <div class="bank-row">
-                        <span class="label">Bank Name</span>
-                        <span class="value">Axis Bank Ltd., Punakumbhariya Road, Surat</span>
-                    </div>
-                    <div class="bank-row">
-                        <span class="label">Account Number</span>
-                        <span class="value" style="font-family:monospace; font-size:1.1rem; font-weight:700; color:#8B1914;">910010039635711</span>
-                    </div>
-                    <div class="bank-row">
-                        <span class="label">IFSC Code</span>
-                        <span class="value" style="font-family:monospace; font-weight:700;">UTIB0000XYZ</span>
-                    </div>
-                    <div class="bank-row">
-                        <span class="label">Account Type</span>
-                        <span class="value">Current Account</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="donate-card">
-                <h3>📱 UPI / Online Transfer</h3>
-                <div class="upi-box" style="margin-bottom:1.5rem;">
-                    <p style="margin:0; color:#555; font-size:0.9rem;">UPI ID</p>
-                    <div class="upi-id">kantheriyadhamsurat@upi</div>
-                    <p style="margin:0; font-size:0.85rem; color:#888;">(Scan or copy UPI ID to pay)</p>
-                </div>
-                <p style="color:#555; font-size:0.95rem; margin-bottom:1.5rem; line-height:1.7;">
-                    You can also donate via <strong>Google Pay, PhonePe, Paytm</strong> or any UPI app using the ID above.<br><br>
-                    For donation queries, call: <br><strong style="color:#8B1914;">+91 99041 90050 / +91 97262 13516</strong>
-                </p>
-                <a href="mailto:kantheriyadhamsurat@gmail.com" class="donate-btn">📧 Contact About Donation</a>
-            </div>
+        <div class="contact-note">
+            🙏 For any queries, contact us:<br>
+            <a href="mailto:kantheriyadhamsurat@gmail.com" style="color: #e65100; text-decoration: none;">kantheriyadhamsurat@gmail.com</a><br>
+            <span style="color: #d84315; font-size: 1.1rem; margin-top: 5px; display: inline-block;">+91 99041 90050 / +91 97262 13516</span>
         </div>
-
-        <div class="note-box" style="background:#fff8e1; border:1px solid #ffe082; border-radius:12px; padding:1.5rem 2rem; display:flex; gap:1rem; align-items:flex-start;">
-            <span style="font-size:1.5rem;">📌</span>
-            <p style="margin:0; color:#5d4037; font-size:0.95rem; line-height:1.7;">
-                <strong>Important Note:</strong> All donations are fully utilized for religious, educational, and charitable purposes. Please contact us at <a href="mailto:kantheriyadhamsurat@gmail.com" style="color:#8B1914;">kantheriyadhamsurat@gmail.com</a> for donation receipts and 80G certificates.
-            </p>
-        </div>
-
     </main>
 </div>
 
